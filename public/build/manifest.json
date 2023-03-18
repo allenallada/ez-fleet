@@ -1,0 +1,12 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-4ed993c7.js",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/js/auth.jsx": {
+    "file": "assets/auth-5928f2cc.js",
+    "isEntry": true,
+    "src": "resources/js/auth.jsx"
+  }
+}
