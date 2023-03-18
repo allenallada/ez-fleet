@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
     Box,
     Button,
@@ -7,16 +6,10 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
-import {Layout as AuthLayout } from './layout/auth/Layout';
-import { useNProgress } from './hooks/use-nprogress';
+import { Layout as AuthLayout } from '../layout/auth/Layout';
+import { Link as ReactLink } from 'react-router-dom';
 
-const Auth = () => {
-
-    // useNProgress();
-
-    const submitHandler = (event) => {
-        event.preventDefault();
-    }
+const Login = () => {
 
     return (
         <AuthLayout>
@@ -32,29 +25,25 @@ const Auth = () => {
                     <Typography color="text.secondary" variant="body2">
                         Don&apos;t have an account?
                         &nbsp;
-                        <Link href='/register' underline="hover" variant="subtitle2">
+                        <Link component={ReactLink} to="/register" underline="hover" variant="subtitle2">
                             Register 
                         </Link>
                     </Typography>
                     </Stack>
                     <form onSubmit={(event) => submitHandler(event)}>
                         <Stack spacing={3}>
-                        <TextField fullWidth label="Email Address" name="email" type="email" />
+                        <TextField fullWidth label="User Name" name="user-name" type="email" />
                         <TextField fullWidth label="Password" name="password" type="password"/>
                         </Stack>
                         <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained" >
                             Continue
-                        </Button>
-                        <Button fullWidth size="large" sx={{ mt: 3 }} >
-                            Register
                         </Button>
                     </form>
                 </div>
                 </Box>
             </Box>
         </AuthLayout>
-        
     );
 }
 
-export default Auth;
+export default Login;

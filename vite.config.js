@@ -6,7 +6,7 @@ export default defineConfig({
     plugins: [
         laravel([
             'resources/css/app.css',
-            'resources/js/auth.jsx',
+            'resources/js/app.jsx',
         ]),
         react()
     ],
