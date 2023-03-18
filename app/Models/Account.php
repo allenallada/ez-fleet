@@ -9,6 +9,19 @@ class Account extends Model
 {
     use HasFactory;
 
+    const CREATED_AT = 'creation_date';
+
+
+    const UPDATED_AT = 'updated_date';
+
+    protected $fillable = [
+        'user_name',
+        'first_name',
+        'last_name',
+        'password',
+        'is_verified'
+    ];
+
     /**
      * The table associated with the model.
      *
