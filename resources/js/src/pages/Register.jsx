@@ -87,7 +87,7 @@ const Register = () => {
                             />
                             <Grid container>
                                 <Grid xs={12} md={6}>
-                                    <TextField  label="First Name" name="firstName" type="text"
+                                    <TextField fullWidth label="First Name" name="firstName" type="text"
                                         error={!!(formik.touched.firstName && formik.errors.firstName)}
                                         helperText={formik.touched.firstName && formik.errors.firstName}
                                         onBlur={formik.handleBlur}
@@ -96,7 +96,7 @@ const Register = () => {
                                     />
                                 </Grid>
                                 <Grid xs={12} md={6} mt={{ xs: 3, md: 0}}>
-                                    <TextField  label="Last Name" name="lastName" type="text"
+                                    <TextField fullWidth pr={2} label="Last Name" name="lastName" type="text"
                                     error={!!(formik.touched.lastName && formik.errors.lastName)}
                                     helperText={formik.touched.lastName && formik.errors.lastName}
                                     onBlur={formik.handleBlur}

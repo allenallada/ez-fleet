@@ -4,9 +4,9 @@
     "isEntry": true,
     "src": "resources/css/app.css"
   },
-  "resources/js/auth.jsx": {
-    "file": "assets/auth-5928f2cc.js",
+  "resources/js/app.jsx": {
+    "file": "assets/app-0ab0376b.js",
     "isEntry": true,
-    "src": "resources/js/auth.jsx"
+    "src": "resources/js/app.jsx"
   }
 }
