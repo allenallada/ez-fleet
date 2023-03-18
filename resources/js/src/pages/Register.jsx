@@ -6,15 +6,25 @@ import {
     Stack,
     TextField,
     Typography,
-    Grid
+    Grid,
+    Alert
 } from '@mui/material';
 import { Layout as AuthLayout} from '../layout/auth/Layout';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Auth from '../api/auth';
+import nProgress from 'nprogress';
 
 const Register = () => {
+
+    const navigate = useNavigate();
+
+    const [alert, setAlert] = useState({
+        'show' : false,
+        'type' : 'success',
+        'message' : ''
+    });
 
     const formik = useFormik({
         initialValues: {
@@ -46,18 +56,31 @@ const Register = () => {
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
         }),
         onSubmit: async (values, helpers) => {
-            Auth.post('/register', values).then(response => {
-                console.log(response)
-            }
-
-            );
+            nProgress.start();
+            Auth.post('/register', values).then(res => {
+                const data = res.data;
+                if (data.success === false) {
+                    nProgress.done();
+                    setAlert({
+                        'show' : true,
+                        'type' : 'error',
+                        'message' : data.message
+                    });
+                } else {
+                    setAlert({
+                        'show' : true,
+                        'type' : 'success',
+                        'message' : 'Successfully Registered, Redirecting to Signin..'
+                    });
+                    setTimeout(()=> {
+                        nProgress.done();
+                        navigate('/');
+                    }, 1000);
+                }
+            });
         }
-      });
+    });
 
-
-    const submitHandler = (event) => {
-        event.preventDefault();
-    }
     return (
         <AuthLayout>
             <Box
@@ -77,58 +100,64 @@ const Register = () => {
                     </Typography>
                     </Stack>
                     <form onSubmit={formik.handleSubmit}>
-                        <Stack spacing={3}>
-                            <TextField fullWidth label="User Name" name="userName" type="text" 
-                                error={!!(formik.touched.userName && formik.errors.userName)}
-                                helperText={formik.touched.userName && formik.errors.userName}
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
-                                value={formik.values.userName}
-                            />
-                            <Grid container>
-                                <Grid xs={12} md={6}>
-                                    <TextField fullWidth label="First Name" name="firstName" type="text"
-                                        error={!!(formik.touched.firstName && formik.errors.firstName)}
-                                        helperText={formik.touched.firstName && formik.errors.firstName}
-                                        onBlur={formik.handleBlur}
-                                        onChange={formik.handleChange}
-                                        value={formik.values.firstName}
-                                    />
-                                </Grid>
-                                <Grid xs={12} md={6} mt={{ xs: 3, md: 0}}>
-                                    <TextField fullWidth pr={2} label="Last Name" name="lastName" type="text"
-                                    error={!!(formik.touched.lastName && formik.errors.lastName)}
-                                    helperText={formik.touched.lastName && formik.errors.lastName}
+                        <Grid container spacing={3}>
+                            <Grid item xs={12}>
+                                <TextField fullWidth label="User Name" name="userName" type="text" 
+                                    error={!!(formik.touched.userName && formik.errors.userName)}
+                                    helperText={formik.touched.userName && formik.errors.userName}
                                     onBlur={formik.handleBlur}
                                     onChange={formik.handleChange}
-                                    value={formik.values.lastName}
-                                    />
-                                </Grid>
+                                    value={formik.values.userName}
+                                />
                             </Grid>
-                            <TextField label="Password" name="password" type="password"
-                                error={!!(formik.touched.password && formik.errors.password)}
-                                helperText={formik.touched.password && formik.errors.password}
+                            <Grid item xs={12} md={6}>
+                                <TextField fullWidth label="First Name" name="firstName" type="text"
+                                    error={!!(formik.touched.firstName && formik.errors.firstName)}
+                                    helperText={formik.touched.firstName && formik.errors.firstName}
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.firstName}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField fullWidth label="Last Name" name="lastName" type="text"
+                                error={!!(formik.touched.lastName && formik.errors.lastName)}
+                                helperText={formik.touched.lastName && formik.errors.lastName}
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
-                                value={formik.values.password}
-                            />
-                            <TextField label="Confirm Password" name="cPassword" type="password"
-                                error={!!(formik.touched.cPassword && formik.errors.cPassword)}
-                                helperText={formik.touched.cPassword && formik.errors.cPassword}
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
-                                value={formik.values.cPassword}
-                            />
-                        </Stack>
+                                value={formik.values.lastName}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField fullWidth label="Password" name="password" type="password"
+                                    error={!!(formik.touched.password && formik.errors.password)}
+                                    helperText={formik.touched.password && formik.errors.password}
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.password}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField fullWidth label="Confirm Password" name="cPassword" type="password"
+                                    error={!!(formik.touched.cPassword && formik.errors.cPassword)}
+                                    helperText={formik.touched.cPassword && formik.errors.cPassword}
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.cPassword}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                {alert.show && <Alert mt={3}  variant="outlined" severity={alert.type}>{alert.message}</Alert> }
+                            </Grid>
+                        </Grid>
                         <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained" >
-                            Sign Up!
+                            Sign Up
                         </Button>
                     </form>
                 </div>
                 </Box>
             </Box>
         </AuthLayout>
-        
     );
 }
 
