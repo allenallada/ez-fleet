@@ -15,3 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {return view('admin');});
 Route::get('/register', function () {return view('admin');});
+Route::get('/overview', function () {return view('admin');});
+Route::get('/vehicles', function () {return view('admin');});
+Route::get('/drivers', function () {return view('admin');});
+Route::get('/account', function () {return view('admin');});
+Route::get('/settings', function () {return view('admin');});

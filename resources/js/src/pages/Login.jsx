@@ -94,9 +94,6 @@ const Login = () => {
 
                         {alert.show && <Alert mt={3} variant="outlined" severity={alert.type}>{alert.message}</Alert> }
                         </Stack>
-
-                        
-
                     </form>
                 </div>
                 </Box>
