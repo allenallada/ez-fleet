@@ -44,4 +44,25 @@ class AuthService
             ]
         ];
     }
+
+    function login($par)
+    {
+        $error = [
+            'success' => false,
+            'message' => 'Pleace check your username and password'
+        ];
+        $res = $this->model->where('user_name', $par['username'])->get();
+        if (count($res) < 1) {
+            return $error;
+        }
+        $acc = $res[0];
+
+        if (Hash::check($par['password'], $acc['password'])) {
+            return [
+                'success' => true,
+                'username' => $acc['user_name'],
+            ];
+        }
+        return $error;
+    }
 }

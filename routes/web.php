@@ -13,10 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('admin');
-});
-
-Route::get('/register', function () {
-    return view('admin');
-});
+Route::get('/', function () {return view('admin');});
+Route::get('/register', function () {return view('admin');});

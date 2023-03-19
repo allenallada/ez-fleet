@@ -26,4 +26,15 @@ class AuthController extends Controller
 
         return $this->service->register($par);
     }
+
+
+    public function login(Request $req)
+    {   
+        $par = $req->only([
+            'username',
+            'password',
+        ]);
+
+        return $this->service->login($par);
+    }
 }

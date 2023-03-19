@@ -9,7 +9,6 @@ import nProgress from 'nprogress';
 const Auth = () => {
     let location = useLocation();
     React.useEffect(() => {
-        console.log(location);
         nProgress.start();
         nProgress.done();
     }, [location.pathname]);
