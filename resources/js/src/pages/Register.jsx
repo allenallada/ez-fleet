@@ -20,11 +20,13 @@ const Register = () => {
 
     const navigate = useNavigate();
 
-    const [alert, setAlert] = useState({
+    const alertdef = {
         'show' : false,
         'type' : 'success',
         'message' : ''
-    });
+    };
+
+    const [alert, setAlert] = useState(alertdef);
 
     const formik = useFormik({
         initialValues: {
@@ -57,6 +59,7 @@ const Register = () => {
         }),
         onSubmit: async (values, helpers) => {
             nProgress.start();
+            setAlert(alertdef);
             Auth.post('/register', values).then(res => {
                 const data = res.data;
                 if (data.success === false) {
@@ -147,12 +150,15 @@ const Register = () => {
                                 />
                             </Grid>
                             <Grid item xs={12}>
+                                <Button fullWidth size="large" type="submit" variant="contained" >
+                                    Sign Up
+                                </Button>
+                            </Grid>
+                            <Grid item xs={12}>
                                 {alert.show && <Alert mt={3}  variant="outlined" severity={alert.type}>{alert.message}</Alert> }
                             </Grid>
                         </Grid>
-                        <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained" >
-                            Sign Up
-                        </Button>
+                        
                     </form>
                 </div>
                 </Box>
