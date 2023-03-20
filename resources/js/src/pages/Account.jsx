@@ -1,14 +1,21 @@
 import * as React from 'react';
 
-import { Layout } from '../layout/dashboard/layout';
+import { Layout as DashboardLayout} from '../layout/dashboard/layout';
 
 
 const Account = () => {
     return (
-        <Layout>
+        <div>
             Account
-        </Layout>
+        </div>
     );
 }
+
+Account.getLayout = (page) => (
+    <DashboardLayout>
+      {page}
+    </DashboardLayout>
+);
+
 
 export default Account;

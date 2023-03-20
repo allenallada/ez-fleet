@@ -1,14 +1,20 @@
 import * as React from 'react';
 
-import { Layout } from '../layout/dashboard/layout';
+import { Layout as DashboardLayout } from '../layout/dashboard/layout';
 
 
 const Drivers = () => {
     return (
-        <Layout>
+        <div>
             Drivers
-        </Layout>
+        </div>
     );
 }
+
+Drivers.getLayout = (page) => (
+    <DashboardLayout>
+      {page}
+    </DashboardLayout>
+);
 
 export default Drivers;

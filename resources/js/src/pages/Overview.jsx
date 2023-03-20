@@ -1,14 +1,20 @@
 import * as React from 'react';
 
-import { Layout } from '../layout/dashboard/layout';
+import { Layout as DashboardLayout} from '../layout/dashboard/layout';
 
 
 const Overview = () => {
     return (
-        <Layout>
+        <div>
             Overview
-        </Layout>
+        </div>
     );
 }
+
+Overview.getLayout = (page) => (
+    <DashboardLayout>
+      {page}
+    </DashboardLayout>
+);
 
 export default Overview;
