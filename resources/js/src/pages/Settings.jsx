@@ -1,14 +1,20 @@
 import * as React from 'react';
 
-import { Layout } from '../layout/dashboard/layout';
+import { Layout as DashboardLayout } from '../layout/dashboard/layout';
 
 
 const Settings = () => {
     return (
-        <Layout>
+        <div>
             Settings
-        </Layout>
+        </div>
     );
 }
+
+Settings.getLayout = (page) => (
+    <DashboardLayout>
+      {page}
+    </DashboardLayout>
+);
 
 export default Settings;

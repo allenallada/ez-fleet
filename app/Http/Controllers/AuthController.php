@@ -37,4 +37,10 @@ class AuthController extends Controller
 
         return $this->service->login($par);
     }
+
+
+    public function status()
+    {   
+        return $this->service->status();
+    }
 }

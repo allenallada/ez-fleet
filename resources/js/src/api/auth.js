@@ -1,7 +1,9 @@
 import axios from "axios";
 
+
+
 const Auth = axios.create({
-    baseURL: 'https://ez-fleet.local.com/api/auth',
+    baseURL: `${import.meta.env.VITE_APP_URL}/auth`,
     timeout: 1000,
 });
 

@@ -1,7 +1,7 @@
 import './bootstrap';
 import React, { StrictMode } from 'react';
 import reactDOM from 'react-dom/client';
-import Auth from './src/pages/Auth';
+import App from './src/pages/App';
 import { Provider } from 'react-redux';
 import admin_store from './stores/admin-store';
 import {ThemeProvider} from '@mui/material';
@@ -18,11 +18,10 @@ root.render(
         <BrowserRouter>
             <ThemeProvider theme={theme}>
                 <Provider store={admin_store}>
-                    <Auth />
+                    <App />
                 </Provider>
             </ThemeProvider>    
         </BrowserRouter>
     </StrictMode>
-
 );
 

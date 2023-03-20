@@ -14,6 +14,8 @@ import * as Yup from 'yup';
 import nProgress from 'nprogress';
 import Auth from '../api/auth';
 import { useState } from 'react';
+import { updateLogin } from '../../stores/admin-store';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
 
@@ -24,6 +26,8 @@ const Login = () => {
     };
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const [alert, setAlert] = useState(alertdef);
 
@@ -48,58 +52,66 @@ const Login = () => {
                     'type' : 'error',
                     'message' : res.data.message
                 }));
-                res.data.success && navigate('/dashboard');
+                res.data.success && (() => {
+                    dispatch(updateLogin(true));
+                    navigate('/overview');
+                })()
             });
         }
     })
 
     return (
-        <AuthLayout>
-            <Box
-                sx={{ backgroundColor: 'background.paper', flex: '1 1 auto', alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
-                <Box sx={{ maxWidth: 550, px: 3, py: '100px', width: '100%' }}
-                >
-                <div>
-                    <Stack spacing={1} sx={{ mb: 3 }} >
-                    <Typography variant="h4">
-                        Login
-                    </Typography>
-                    <Typography color="text.secondary" variant="body2">
-                        Don&apos;t have an account?
-                        &nbsp;
-                        <Link component={ReactLink} to="/register" underline="hover" variant="subtitle2">
-                            Register 
-                        </Link>
-                    </Typography>
-                    </Stack>
-                    <form onSubmit={formik.handleSubmit}>
-                        <Stack spacing={3}>
-                        <TextField fullWidth label="User Name" name="username" type="text"
-                            error={!!(formik.touched.username && formik.errors.username)}
-                            helperText={formik.touched.username && formik.errors.username}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values.username}
-                        />
-                        <TextField fullWidth label="Password" name="password" type="password"
-                            error={!!(formik.touched.password && formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values.password}
-                        />
-                        <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained" >
-                            Sign In
-                        </Button>
+        <Box
+            sx={{ backgroundColor: 'background.paper', flex: '1 1 auto', alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
+            <Box sx={{ maxWidth: 550, px: 3, py: '100px', width: '100%' }}
+            >
+            <div>
+                <Stack spacing={1} sx={{ mb: 3 }} >
+                <Typography variant="h4">
+                    Login
+                </Typography>
+                <Typography color="text.secondary" variant="body2">
+                    Don&apos;t have an account?
+                    &nbsp;
+                    <Link component={ReactLink} to="/register" underline="hover" variant="subtitle2">
+                        Register 
+                    </Link>
+                </Typography>
+                </Stack>
+                <form onSubmit={formik.handleSubmit}>
+                    <Stack spacing={3}>
+                    <TextField fullWidth label="User Name" name="username" type="text"
+                        error={!!(formik.touched.username && formik.errors.username)}
+                        helperText={formik.touched.username && formik.errors.username}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.username}
+                    />
+                    <TextField fullWidth label="Password" name="password" type="password"
+                        error={!!(formik.touched.password && formik.errors.password)}
+                        helperText={formik.touched.password && formik.errors.password}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
+                    />
+                    <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained" >
+                        Sign In
+                    </Button>
 
-                        {alert.show && <Alert mt={3} variant="outlined" severity={alert.type}>{alert.message}</Alert> }
-                        </Stack>
-                    </form>
-                </div>
-                </Box>
+                    {alert.show && <Alert mt={3} variant="outlined" severity={alert.type}>{alert.message}</Alert> }
+                    </Stack>
+                </form>
+            </div>
             </Box>
-        </AuthLayout>
+        </Box>
     );
 }
+
+Login.getLayout = (page) => (
+  <AuthLayout>
+    {page}
+  </AuthLayout>
+);
+
 
 export default Login;

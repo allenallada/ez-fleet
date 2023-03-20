@@ -58,11 +58,19 @@ class AuthService
         $acc = $res[0];
 
         if (Hash::check($par['password'], $acc['password'])) {
+            session()->put('user', $acc['user_name']);
             return [
                 'success' => true,
                 'username' => $acc['user_name'],
             ];
         }
         return $error;
+    }
+
+    function status()
+    {
+        return  [
+            'auth' => !empty(session()->get('user'))
+        ];
     }
 }

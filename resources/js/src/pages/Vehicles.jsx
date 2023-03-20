@@ -1,14 +1,20 @@
 import * as React from 'react';
 
-import { Layout } from '../layout/dashboard/layout';
+import { Layout as DashboardLayout } from '../layout/dashboard/layout';
 
 
 const Vehicles = () => {
     return (
-        <Layout>
+        <div>
             Vehicles
-        </Layout>
+        </div>
     );
 }
+
+Vehicles.getLayout = (page) => (
+    <DashboardLayout>
+      {page}
+    </DashboardLayout>
+);
 
 export default Vehicles;

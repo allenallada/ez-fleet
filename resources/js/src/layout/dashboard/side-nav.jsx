@@ -12,10 +12,11 @@ import {
 import { Scrollbar } from '../../components/scrollbar';
 import { items } from './config';
 import { SideNavItem } from './side-nav-item';
+import { useLocation } from 'react-router-dom';
 
 export const SideNav = (props) => {
     const { open, onClose } = props;
-    // const pathname = usePathname();
+    const location = useLocation();
     const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
     const content = (
         <Scrollbar sx={{ height: '100%', '& .simplebar-content': { height: '100%' }, '& .simplebar-scrollbar:before': { background: 'neutral.400' }}}>
@@ -39,7 +40,7 @@ export const SideNav = (props) => {
                             const active = false;
                             return (
                                 <SideNavItem
-                                    active={active}
+                                    active={location.pathname === item.to}
                                     disabled={item.disabled}
                                     external={item.external}
                                     icon={item.icon}
