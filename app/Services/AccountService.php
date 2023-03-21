@@ -5,10 +5,9 @@ namespace App\Services;
 use App\Models\Account;
 use Illuminate\Support\Facades\Hash;
 
-class AuthService
+class AccountService
 {
     private $model;
-
 
     function __construct(Account $model)
     {
@@ -71,6 +70,21 @@ class AuthService
     {
         return  [
             'auth' => !empty(session()->get('user'))
+        ];
+    }
+
+    function details()
+    {
+        $username = session()->get('user');
+        $acc = $this->model->where('user_name', $username)->first();
+
+        return [
+            'user_name'  => $acc['user_name'],
+            'first_name' => $acc['first_name'],
+            'last_name'  => $acc['user_name'],
+            'email'      => $acc['email'],
+            'mobile'     => $acc['mobile'],
+            'image_src'  => $acc['image_src'],
         ];
     }
 }

@@ -13,7 +13,7 @@ import { Layout as AuthLayout} from '../layout/auth/Layout';
 import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import Auth from '../api/auth';
+import Admin from '../axios/admin';
 import nProgress from 'nprogress';
 
 const Register = () => {
@@ -39,28 +39,30 @@ const Register = () => {
         },
         validationSchema: Yup.object({
             userName: Yup.string()
+            .label('Username')
             .max(20)
             .min(3)
             .required('Username is required'),
             firstName: Yup.string()
+            .label('First name')
             .max(50)
             .required('First Name is required'),
             lastName: Yup.string()
+            .label('Last name')
             .max(50)
             .min(3),
             password: Yup.string()
+            .label('Password')
             .max(50)
             .min(8)
             .required('Password is required'),
             cPassword: Yup.string()
-            .max(50)
-            .min(8)
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
         }),
         onSubmit: async (values, helpers) => {
             nProgress.start();
             setAlert(alertdef);
-            Auth.post('/register', values).then(res => {
+            Admin.register(values).then(res => {
                 const data = res.data;
                 if (data.success === false) {
                     nProgress.done();

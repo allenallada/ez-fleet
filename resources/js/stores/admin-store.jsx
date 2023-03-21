@@ -1,7 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
-import adminReducer from './slices/adminSlice';
-import { settingsSlice } from './slices/adminSlice';
-
+import adminReducer, { settingsSlice } from './slices/adminSlice';
 
 export default configureStore({
     reducer : {
@@ -9,5 +7,5 @@ export default configureStore({
     }
 });
 
-export const {updateLogin} = settingsSlice.actions;
+export const {updateLogin, updateDetails} = settingsSlice.actions;
 

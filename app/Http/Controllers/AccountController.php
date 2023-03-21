@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\AuthService;
+use App\Services\AccountService;
 
-class AuthController extends Controller
+class AccountController extends Controller
 {
     public $service;
 
-    function __construct(AuthService $service)
+    function __construct(AccountService $service)
     {
         $this->service = $service;
     }
@@ -42,5 +42,11 @@ class AuthController extends Controller
     public function status()
     {   
         return $this->service->status();
+    }
+
+
+    public function details()
+    {   
+        return $this->service->details();
     }
 }

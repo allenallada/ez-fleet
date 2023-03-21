@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AccountController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,10 +22,12 @@ Route::get('/account', function () {return view('admin');});
 Route::get('/settings', function () {return view('admin');});
 
 
-
 Route::prefix('auth')->group(function() {
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/status', [AuthController::class, 'status']);
+    Route::post('/register', [AccountController::class, 'register']);
+    Route::post('/login', [AccountController::class, 'login']);
+    Route::get('/status', [AccountController::class, 'status']);
 });
 
+Route::prefix('admin')->group(function() {
+    Route::get('/details', [AccountController::class, 'details']);
+});

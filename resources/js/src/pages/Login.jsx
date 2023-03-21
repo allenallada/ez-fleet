@@ -12,7 +12,7 @@ import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import nProgress from 'nprogress';
-import Auth from '../api/auth';
+import Admin from '../axios/admin';
 import { useState } from 'react';
 import { updateLogin } from '../../stores/admin-store';
 import { useDispatch } from 'react-redux';
@@ -26,7 +26,6 @@ const Login = () => {
     };
 
     const navigate = useNavigate();
-
     const dispatch = useDispatch();
 
     const [alert, setAlert] = useState(alertdef);
@@ -45,7 +44,7 @@ const Login = () => {
         onSubmit : async (values, helpers) => {
             nProgress.start();
             setAlert(alertdef);
-            Auth.post('/login', values).then(res => {
+            Admin.login(values).then(res => {
                 console.log(res.data);
                 !res.data.success && (setAlert({
                     'show' : true,
