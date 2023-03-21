@@ -1,7 +1,4 @@
-import * as React from 'react';
-
 import { Layout as DashboardLayout } from '../layout/dashboard/layout';
-
 
 const Drivers = () => {
     return (
