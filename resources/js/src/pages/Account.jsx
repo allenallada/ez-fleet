@@ -13,7 +13,8 @@ const Account = () => {
 
     !details && accountFetch();
 
-    return (details && <>
+    return (details && 
+    <>
         <Box  component="main" sx={{ flexGrow: 1, py: 8 }} >
             <Container maxWidth="lg">
                 <Stack spacing={3}>
