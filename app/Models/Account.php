@@ -19,7 +19,10 @@ class Account extends Model
         'first_name',
         'last_name',
         'password',
-        'is_verified'
+        'is_verified',
+        'email',
+        'mobile',
+        'image_src'
     ];
 
     /**

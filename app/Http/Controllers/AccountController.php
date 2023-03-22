@@ -49,4 +49,22 @@ class AccountController extends Controller
     {   
         return $this->service->details();
     }
+
+    public function profile(Request $req)
+    {   
+        $par = $req->only(['email', 'mobile', 'first_name', 'last_name', 'password']);
+        return $this->service->updProfile($par);
+    }
+
+    public function password(Request $req)
+    {   
+        $par = $req->only(['n_password', 'password']);
+        return $this->service->updProfile($par);
+    }
+
+    public function avatar(Request $req)
+    {   
+        $par = $req->only(['image_src']);
+        return $this->service->updProfile($par, false);
+    }
 }

@@ -14,7 +14,7 @@ const theme = createTheme();
 const root = reactDOM.createRoot(document.getElementById('admin-root'));
 
 root.render(
-    <StrictMode>
+    // <StrictMode>
         <BrowserRouter>
             <ThemeProvider theme={theme}>
                 <Provider store={admin_store}>
@@ -22,6 +22,6 @@ root.render(
                 </Provider>
             </ThemeProvider>    
         </BrowserRouter>
-    </StrictMode>
+    // </StrictMode>
 );
 

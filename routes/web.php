@@ -30,4 +30,7 @@ Route::prefix('auth')->group(function() {
 
 Route::prefix('admin')->group(function() {
     Route::get('/details', [AccountController::class, 'details']);
+    Route::post('/profile', [AccountController::class, 'profile']);
+    Route::post('/password', [AccountController::class, 'password']);
+    Route::post('/avatar', [AccountController::class, 'avatar']);
 });

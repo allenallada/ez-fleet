@@ -6,9 +6,13 @@ import {
     CardActions,
     CardContent,
     Divider,
-    Typography
+    Typography,
 } from '@mui/material';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import Admin from '../../axios/admin';
+import AvatarSelect from '../../components/select-avatar-dialog';
+import { ToastAlert } from '../../components/toast-alert';
   
 export const AccountProfile = () => {
 
@@ -16,10 +20,58 @@ export const AccountProfile = () => {
         return  {details : state.admin.details}
     });
 
+    //update mode
+    const [mode, setMode] = useState(false);
+    const [avatarSrc, setSrc] = useState(details.image_src);
+
+    const [event, setEvent] = useState(null);
+
+    const [toast, setToast] = useState({
+        message : '',
+        severity : 'success'
+    });
+
+    const avatarClick = (event) => {
+        setEvent(event);
+    }
+
+    const selectHandler = (src) => {
+        if (src !== avatarSrc) {
+            setMode(true);
+            setSrc(src);
+        }
+
+    }
+
+    const cancelHandler = () => {
+        setMode(false);
+        setSrc(details.image_src);
+    }
+    
+    const confirmHandler = () => {
+        setMode(false);
+        Admin.updAvatar({image_src : avatarSrc}).then(res => res.data)
+        .then(data => {
+            if (data.success === true) {
+                setToast({
+                    message : 'Avatar updated',
+                    severity : 'success'
+                })
+            } else {
+                setToast({
+                    message : 'Something went wrong',
+                    severity : 'error'
+                })
+            }
+        });
+    }
+
     return (<Card>
+        <ToastAlert toast={toast} />
+        {event && <AvatarSelect selectHandler={selectHandler} event={event}/>}
         <CardContent>
             <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
-            <Avatar src={details.image_src} sx={{ height: 80, mb: 2, width: 80 }}
+            <Avatar src={avatarSrc} sx={{ height: 80, mb: 2, width: 80 }}
             />
             <Typography gutterBottom variant="h5">
                 {details.user_name}
@@ -31,9 +83,28 @@ export const AccountProfile = () => {
         </CardContent>
         <Divider />
         <CardActions>
-            <Button fullWidth variant="text" >
-                Upload picture
-            </Button>
+            {
+                !mode && (
+                    <>
+                        <Button onClick={avatarClick} fullWidth variant="text" >
+                            Change Avatar
+                        </Button>
+                    </>
+                )
+            }
+            {
+                mode && (
+                <>
+                    <Button onClick={cancelHandler} fullWidth variant="text" >
+                        Cancel
+                    </Button>
+                    <Button onClick={confirmHandler} fullWidth variant="text" >
+                        Confirm
+                    </Button>
+                </>
+                )
+            }
+                
         </CardActions>
     </Card>)
 };
