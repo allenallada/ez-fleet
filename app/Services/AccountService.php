@@ -29,7 +29,7 @@ class AccountService
             'first_name' => $par['firstName'],
             'last_name' => $par['lastName'],
             'password' => Hash::make($par['password']),
-            'is_verified' => true // default for initial dev
+            'is_verified' => false // default for initial dev
         ];
 
         $res = $this->model->create($data);
