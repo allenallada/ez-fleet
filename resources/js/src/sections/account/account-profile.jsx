@@ -86,7 +86,7 @@ export const AccountProfile = () => {
             {
                 !mode && (
                     <>
-                        <Button onClick={avatarClick} fullWidth variant="text" >
+                        <Button onClick={avatarClick} fullWidth variant="contained" >
                             Change Avatar
                         </Button>
                     </>
@@ -95,10 +95,10 @@ export const AccountProfile = () => {
             {
                 mode && (
                 <>
-                    <Button onClick={cancelHandler} fullWidth variant="text" >
+                    <Button onClick={cancelHandler} fullWidth variant="outlined" >
                         Cancel
                     </Button>
-                    <Button onClick={confirmHandler} fullWidth variant="text" >
+                    <Button onClick={confirmHandler} fullWidth variant="contained" >
                         Confirm
                     </Button>
                 </>
