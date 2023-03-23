@@ -8,14 +8,17 @@ import {
     Divider,
     Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { updateToast } from '../../../stores/admin-store';
 import Admin from '../../axios/admin';
 import AvatarSelect from '../../components/select-avatar-dialog';
 import { ToastAlert } from '../../components/toast-alert';
   
 export const AccountProfile = () => {
 
+    const dispatch = useDispatch();
     const {details} = useSelector(state => {
         return  {details : state.admin.details}
     });
@@ -23,7 +26,6 @@ export const AccountProfile = () => {
     //update mode
     const [mode, setMode] = useState(false);
     const [avatarSrc, setSrc] = useState(details.image_src);
-
     const [event, setEvent] = useState(null);
 
     const [toast, setToast] = useState({
@@ -40,34 +42,37 @@ export const AccountProfile = () => {
             setMode(true);
             setSrc(src);
         }
-
     }
 
     const cancelHandler = () => {
         setMode(false);
         setSrc(details.image_src);
     }
+
+    useEffect(() => {
+        setSrc(details.image_src);
+    }, [details])
     
     const confirmHandler = () => {
         setMode(false);
         Admin.updAvatar({image_src : avatarSrc}).then(res => res.data)
         .then(data => {
             if (data.success === true) {
-                setToast({
+                dispatch(updateToast({
                     message : 'Avatar updated',
                     severity : 'success'
-                })
+                }));
             } else {
-                setToast({
+                dispatch(updateToast({
                     message : 'Something went wrong',
                     severity : 'error'
-                })
+                }));
             }
         });
     }
 
-    return (<Card>
-        <ToastAlert toast={toast} />
+    return (
+    <Card>
         {event && <AvatarSelect selectHandler={selectHandler} event={event}/>}
         <CardContent>
             <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>

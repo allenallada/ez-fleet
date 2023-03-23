@@ -1,17 +1,27 @@
 import { Box, Container, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Layout as DashboardLayout } from '../layout/dashboard/layout';
 import { AccountProfile } from '../sections/account/account-profile';
 import { AccountProfileDetails } from '../sections/account/account-profile-details';
-import { accountFetch } from '../utils/account';
+import { useDispatch } from "react-redux"
+import { updateDetails } from "../../stores/admin-store";
+import Admin from "../axios/admin"
 
 const Account = () => {
-
+    const dispatch = useDispatch();
     const {details} = useSelector(state => {
         return  {details : state.admin.details}
     });
 
-    !details && accountFetch();
+    const reloadDetails = () => {
+        dispatch(updateDetails(false));
+        Admin.details().then(res => res.data).then(data => {
+            dispatch(updateDetails(data));
+        })
+    }
+    
+    useEffect(reloadDetails, []);
 
     return (details && 
     <>

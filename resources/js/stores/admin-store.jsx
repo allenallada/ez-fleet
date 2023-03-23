@@ -7,5 +7,5 @@ export default configureStore({
     }
 });
 
-export const {updateLogin, updateDetails} = settingsSlice.actions;
+export const {updateLogin, updateDetails, updateToast} = settingsSlice.actions;
 

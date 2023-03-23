@@ -56,10 +56,18 @@ const Register = () => {
             .max(50)
             .min(8)
             .required('Password is required'),
-            cPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'Passwords must match')
+            cPassword:  Yup.string()
+            .when('password', {
+                is : password => password !== undefined,
+                then : () => {
+                    return Yup.string().required('You must confirm your password')
+                    .oneOf([Yup.ref('password')], 'Passwords must match')
+                },
+                otherwise: () => Yup.string()
+            })
         }),
         onSubmit: async (values, helpers) => {
+            console.log(values);
             nProgress.start();
             setAlert(alertdef);
             Admin.register(values).then(res => {

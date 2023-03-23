@@ -17,7 +17,7 @@ import Confirm from '../../components/confirm-password-dialog';
 import Admin from '../../axios/admin';
 import { ToastAlert } from '../../components/toast-alert';
 import { useDispatch } from 'react-redux';
-import { updateDetails } from '../../../stores/admin-store';
+import { updateDetails, updateToast } from '../../../stores/admin-store';
 
 
 export const AccountProfileDetails = () => {
@@ -34,12 +34,7 @@ export const AccountProfileDetails = () => {
     const [open, setOpen] = useState(false);
     //handler methods, pf = profile, pw = password
     const [handler, setHandler] = useState('pf');
-    //toast state
-    const [toast, setToast] = useState({
-        message : '',
-        severity : 'success'
-    });
-
+    
     const initDialog = (handler) => {
         setHandler(handler);
         setOpen(true);
@@ -112,15 +107,15 @@ export const AccountProfileDetails = () => {
             Admin.updProfile(params).then(res => res.data).then(data => {
                 if (data.success) {
                     dispatch(updateDetails(data.details));
-                    setToast({
+                    dispatch(updateToast({
                         message : 'Profile updated!',
                         severity : 'success'
-                    });
+                    }));
                 } else {
-                    setToast({
+                    dispatch(updateToast({
                         message : 'Update failed, pleace check your password',
                         severity : 'error'
-                    });
+                    }));
                 }
             });
         })();
@@ -134,15 +129,15 @@ export const AccountProfileDetails = () => {
                 if (data.success) {
                     passFormik.setFieldValue('n_password', '');
                     passFormik.setFieldValue('c_password', '');
-                    setToast({
+                    dispatch(updateToast({
                         message : 'Password updated!',
                         severity : 'success'
-                    });
+                    }));
                 } else {
-                    setToast({
+                    dispatch(updateToast({
                         message : 'Update failed, pleace check your password',
                         severity : 'error'
-                    });
+                    }));
                 }
             });
         })();
@@ -151,7 +146,6 @@ export const AccountProfileDetails = () => {
     return (
         <Card>
             <Confirm confirmHandler={handler === 'pf' ? profHandler : passHandler} closeHandler={closeHandler} open={open} />
-            <ToastAlert toast={toast}/>
             <CardHeader subheader="Update your information" title="Profile" />
             <form autoComplete="off" onSubmit={profFormik.handleSubmit}>
                 <CardContent sx={{ pt: 0 }}>

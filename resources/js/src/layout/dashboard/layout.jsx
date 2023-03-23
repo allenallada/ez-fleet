@@ -2,6 +2,8 @@ import { useCallback, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { SideNav } from './side-nav';
 import { TopNav } from './top-nav';
+import { ToastAlert } from '../../components/toast-alert';
+import { useSelector } from 'react-redux';
 
 const SIDE_NAV_WIDTH = 280;
 
@@ -26,6 +28,12 @@ export const Layout = (props) => {
     const { children } = props;
     // const pathname = usePathname();
     const [openNav, setOpenNav] = useState(false);
+    const {toast} = useSelector(state => {
+        return {
+            toast : state.admin.toast
+        }
+    })
+
 
     const handlePathnameChange = useCallback(
     () => {
@@ -35,9 +43,9 @@ export const Layout = (props) => {
     },
     [openNav]
     );
-
     return (
         <>
+            <ToastAlert toast={toast} />
             <TopNav onNavOpen={() => setOpenNav(true)} />
                 <SideNav
                     onClose={() => setOpenNav(false)}
