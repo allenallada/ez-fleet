@@ -1,5 +1,3 @@
-// import NextLink from 'next/link';
-// import { usePathname } from 'next/navigation';
 import PropTypes from 'prop-types';
 import {
   Box,
@@ -37,10 +35,11 @@ export const SideNav = (props) => {
                 <Box component="nav" sx={{ flexGrow: 1, px: 2, py: 3 }}>
                     <Stack component="ul" spacing={0.5} sx={{ listStyle: 'none', p: 0, m: 0}}>
                         {items.map((item) => {
-                            const active = false;
+                            const active = location.pathname === item.to || item.sub.includes(location.pathname);
+
                             return (
                                 <SideNavItem
-                                    active={location.pathname === item.to}
+                                    active={active}
                                     disabled={item.disabled}
                                     external={item.external}
                                     icon={item.icon}

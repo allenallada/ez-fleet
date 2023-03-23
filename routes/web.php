@@ -20,6 +20,7 @@ Route::get('/vehicles', function () {return view('admin');});
 Route::get('/drivers', function () {return view('admin');});
 Route::get('/account', function () {return view('admin');});
 Route::get('/settings', function () {return view('admin');});
+Route::get('/add-vehicle', function () {return view('admin');});
 
 
 Route::prefix('auth')->group(function() {

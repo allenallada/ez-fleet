@@ -13,7 +13,8 @@ export const items = [
             <SvgIcon fontSize="small">
                 <ChartBarIcon />
             </SvgIcon>
-        )
+        ),
+        sub : []
     },
     {
         title: 'Vehicles',
@@ -22,7 +23,10 @@ export const items = [
             <SvgIcon fontSize="small">
                 <TruckIcon />
             </SvgIcon>
-        )
+        ),
+        sub : [
+            '/add-vehicle'
+        ]
     },
     {
         title: 'Drivers',
@@ -31,7 +35,8 @@ export const items = [
             <SvgIcon fontSize="small">
                 <UserGroupIcon />
             </SvgIcon>
-        )
+        ),
+        sub : []
     },
     {
         title: 'Account',
@@ -40,7 +45,8 @@ export const items = [
             <SvgIcon fontSize="small">
                 <UserIcon />
             </SvgIcon>
-        )
+        ),
+        sub : []
     },
     {
         title: 'Settings',
@@ -49,6 +55,7 @@ export const items = [
             <SvgIcon fontSize="small">
                 <CogIcon />
             </SvgIcon>
-        )
+        ),
+        sub : []
     }
 ];
