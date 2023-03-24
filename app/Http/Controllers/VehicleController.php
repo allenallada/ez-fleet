@@ -35,7 +35,16 @@ class VehicleController extends Controller
             'limit',
             'offset'
         ]);
-
+        
         return $this->repository->list($params);
+    }
+
+    public function count(Request $request)
+    {   
+        $params = $request->only([]);
+
+        return [
+            'count' => $this->repository->count($params)
+        ];
     }
 }

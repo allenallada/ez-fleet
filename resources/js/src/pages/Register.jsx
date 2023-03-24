@@ -13,8 +13,8 @@ import { Layout as AuthLayout} from '../layout/auth/Layout';
 import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { getRegisterFormik } from '../utils/formik-config';
-import Admin from '../axios/admin';
 import nProgress from 'nprogress';
+import Auth from '../axios/Auth';
 
 const Register = () => {
 
@@ -31,7 +31,7 @@ const Register = () => {
     const onSubmit = async (values, helpers) => {
         nProgress.start();
         setAlert(alertdef);
-        Admin.register(values).then(res => {
+        Auth.register(values).then(res => {
             const data = res.data;
             if (data.success === false) {
                 nProgress.done();

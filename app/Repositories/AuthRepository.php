@@ -28,6 +28,7 @@ class AuthRepository
 
         if (Hash::check($par['password'], $acc['password'])) {
             session()->put('user', $acc['user_name']);
+            session()->put('account_no', $acc['account_no']);
             return [
                 'success' => true,
                 'username' => $acc['user_name'],

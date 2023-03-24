@@ -6,12 +6,13 @@ import {
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import Confirm from '../../components/confirm-password-dialog';
-import Admin from '../../axios/admin';
 import { useDispatch } from 'react-redux';
 import { updateDetails, updateToast } from '../../../stores/admin-store';
 import { getPasswordFormik, getProfileFormik } from '../../utils/formik-config';
 import { PasswordForm } from './password-form';
 import { InformationForm } from './information-form';
+import Account from '../../axios/account';
+
 export const AccountProfileDetails = () => {
 
     const dispatch = useDispatch();
@@ -48,7 +49,7 @@ export const AccountProfileDetails = () => {
         setOpen(false);
         value && (() => {
             const params = {...profFormik.values, password : value}
-            Admin.updProfile(params).then(res => res.data).then(data => {
+            Account.updProfile(params).then(res => res.data).then(data => {
                 if (data.success) {
                     dispatch(updateDetails(data.details));
                     dispatch(updateToast({
@@ -69,7 +70,7 @@ export const AccountProfileDetails = () => {
         setOpen(false);
         value && (() => {
             const params = {...passFormik.values, password : value}
-            Admin.updPassword(params).then(res => res.data).then(data => {
+            Account.updPassword(params).then(res => res.data).then(data => {
                 if (data.success) {
                     passFormik.setFieldValue('n_password', '');
                     passFormik.setFieldValue('c_password', '');

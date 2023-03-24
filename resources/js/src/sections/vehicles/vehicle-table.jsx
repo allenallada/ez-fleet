@@ -27,14 +27,13 @@ export const VehiclesTable = (props) => {
         onRowsPerPageChange,
         onSelectAll,
         onSelectOne,
-        page = 0,
+        page = 1,
         rowsPerPage = 0,
         selected = []
     } = props;
 
     const selectedSome = (selected.length > 0) && (selected.length < items.length);
     const selectedAll = (items.length > 0) && (selected.length === items.length);
-
     return (
         <Card>
             <Box sx={{ minWidth: 800 }}>
@@ -184,5 +183,6 @@ VehiclesTable.propTypes = {
     onSelectOne: PropTypes.func,
     page: PropTypes.number,
     rowsPerPage: PropTypes.number,
-    selected: PropTypes.array
+    selected: PropTypes.array,
+    loading : PropTypes.bool
 };

@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { updateToast } from '../../../stores/admin-store';
-import Admin from '../../axios/admin';
+import Account from '../../axios/account';
 import AvatarSelect from '../common/select-avatar-dialog';
 import { profileConfig } from '../../utils/avatar-list-config';
   
@@ -50,7 +50,7 @@ export const AccountProfile = () => {
     
     const confirmHandler = () => {
         setMode(false);
-        Admin.updAvatar({image_src : avatarSrc}).then(res => res.data)
+        Account.updAvatar({image_src : avatarSrc}).then(res => res.data)
         .then(data => {
             if (data.success === true) {
                 dispatch(updateToast({

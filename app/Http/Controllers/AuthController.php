@@ -36,12 +36,10 @@ class AuthController extends Controller
         return $this->repository->login($par);
     }
 
-
     public function status()
     {   
         return $this->repository->status();
     }
-
 
     public function details()
     {   

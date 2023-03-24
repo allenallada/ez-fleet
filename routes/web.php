@@ -32,10 +32,14 @@ Route::prefix('auth')->group(function() {
     Route::get('/details', [AuthController::class, 'details']);
 });
 
-Route::prefix('admin')->group(function() {
+Route::prefix('account')->group(function() {
     Route::post('/profile', [AccountController::class, 'profile']);
     Route::post('/password', [AccountController::class, 'password']);
     Route::post('/avatar', [AccountController::class, 'avatar']);
-    Route::post('/vehicle', [VehicleController::class, 'store']);
-    Route::get('/vehicle', [VehicleController::class, 'list']);
+});
+
+Route::prefix('vehicle')->group(function() {
+    Route::post('/', [VehicleController::class, 'store']);
+    Route::get('/', [VehicleController::class, 'list']);
+    Route::get('/count', [VehicleController::class, 'count']);
 });

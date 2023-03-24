@@ -9,6 +9,8 @@ class VehicleRepository implements CRUDInterface
 {
     private $model;
 
+    private $accountNo;
+
     function __construct(Vehicle $model)
     {
         $this->model = $model;
@@ -23,9 +25,8 @@ class VehicleRepository implements CRUDInterface
                 'message' => 'Plate number already exists'
             ];
         }
-
+        $params['account_no'] = session()->get('account_no');
         $res = $this->model->create($params);
-
         return [
             'success' => true,
             'account' => $res
@@ -37,12 +38,12 @@ class VehicleRepository implements CRUDInterface
         return $id;
     }
 
-    function update($params)
+    function list($params)
     {
-
+        return $this->model->orderBy('vehicle_no', 'desc')->skip($params['offset'])->take($params['limit'])->get();
     }
 
-    function list($params)
+    function update($params)
     {
 
     }
@@ -50,5 +51,12 @@ class VehicleRepository implements CRUDInterface
     function delete($id)
     {
 
+    }
+
+    function count($params)
+    {
+        $accountNo = session()->get('account_no');
+
+        return $this->model->where('account_no', $accountNo)->get()->count();
     }
 }

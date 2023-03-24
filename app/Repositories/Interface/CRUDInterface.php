@@ -8,4 +8,5 @@ interface CRUDInterface {
     public function get($id);
     public function list($params);
     public function delete($id);
+    public function count($id);
 }

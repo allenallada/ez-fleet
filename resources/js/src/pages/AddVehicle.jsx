@@ -20,7 +20,7 @@ import ArrowLeftIcon from '@heroicons/react/24/solid/ArrowLeftIcon';
 import VehicleInformation from '../sections/vehicles/vehicle-information';
 import { useFormik } from 'formik';
 import AvatarSelect from '../sections/common/select-avatar-dialog';
-import Admin from '../axios/admin';
+import Vehicle from '../axios/vehicle';
 import { vehicleConfig } from '../utils/avatar-list-config';
 import { useDispatch } from 'react-redux';
 import { updateToast } from '../../stores/admin-store';
@@ -40,7 +40,7 @@ const AddVehicles = () => {
     }
 
     const onSubmit = async (values, helpers) => {
-        Admin.addVehicle(values).then(res => res.data)
+        Vehicle.addVehicle(values).then(res => res.data)
         .then((data) => {
             if(data.success) {
                 dispatch(updateToast({
