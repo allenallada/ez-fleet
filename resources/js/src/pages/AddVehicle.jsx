@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import ArrowLeftIcon from '@heroicons/react/24/solid/ArrowLeftIcon';
 import VehicleInformation from '../sections/vehicles/vehicle-information';
 import { useFormik } from 'formik';
-import AvatarSelect from '../components/select-avatar-dialog';
+import AvatarSelect from '../sections/common/select-avatar-dialog';
 import Admin from '../axios/admin';
 import { vehicleConfig } from '../utils/avatar-list-config';
 import { useDispatch } from 'react-redux';

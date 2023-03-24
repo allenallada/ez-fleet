@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VehicleController;
 /*
 |--------------------------------------------------------------------------
@@ -25,16 +26,16 @@ Route::get('/add-vehicle', function () {return view('admin');});
 
 
 Route::prefix('auth')->group(function() {
-    Route::post('/register', [AccountController::class, 'register']);
-    Route::post('/login', [AccountController::class, 'login']);
-    Route::get('/status', [AccountController::class, 'status']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/status', [AuthController::class, 'status']);
+    Route::get('/details', [AuthController::class, 'details']);
 });
 
 Route::prefix('admin')->group(function() {
-    Route::get('/details', [AccountController::class, 'details']);
     Route::post('/profile', [AccountController::class, 'profile']);
     Route::post('/password', [AccountController::class, 'password']);
     Route::post('/avatar', [AccountController::class, 'avatar']);
-    Route::post('/vehicle', [VehicleController::class, 'add']);
-    Route::get('/vehicle', [VehicleController::class, 'getList']);
+    Route::post('/vehicle', [VehicleController::class, 'store']);
+    Route::get('/vehicle', [VehicleController::class, 'list']);
 });

@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { updateToast } from '../../../stores/admin-store';
 import Admin from '../../axios/admin';
-import AvatarSelect from '../../components/select-avatar-dialog';
+import AvatarSelect from '../common/select-avatar-dialog';
 import { profileConfig } from '../../utils/avatar-list-config';
   
 export const AccountProfile = () => {

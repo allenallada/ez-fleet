@@ -3,21 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\VehicleService;
+use App\Repositories\VehicleRepository;
 
 class VehicleController extends Controller
 {
-    public $service;
+    public $repository;
 
-    function __construct(VehicleService $service)
+    function __construct(VehicleRepository $repository)
     {
-        $this->service = $service;
+        $this->repository = $repository;
     }
 
 
-    public function add(Request $req)
+    public function store(Request $request)
     {   
-        $par = $req->only([
+        $params = $request->only([
             'plate_number',
             'brand',
             'model',
@@ -26,16 +26,16 @@ class VehicleController extends Controller
             'image_src'
         ]);
 
-        return $this->service->add($par);
+        return $this->repository->store($params);
     }
 
-    public function search(Request $req)
+    public function list(Request $request)
     {   
-        $par = $req->only([
+        $params = $request->only([
             'limit',
             'offset'
         ]);
 
-        return $this->service->search($par);
+        return $this->repository->list($params);
     }
 }

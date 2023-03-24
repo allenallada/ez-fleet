@@ -11,7 +11,7 @@ Admin.register = (params) => Admin.post('/auth/register', params);
 
 Admin.status = () => Admin.get('/auth/status');
 
-Admin.details = () => Admin.get('/admin/details');
+Admin.details = () => Admin.get('/auth/details');
 
 Admin.updProfile = (params) => Admin.post('/admin/profile', params);
 
