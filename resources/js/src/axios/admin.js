@@ -19,4 +19,6 @@ Admin.updPassword = (params) => Admin.post('/admin/password', params);
 
 Admin.updAvatar = (params) => Admin.post('/admin/avatar', params);
 
+Admin.addVehicle = (params) => Admin.post('/admin/vehicle', params);
+
 export default Admin;

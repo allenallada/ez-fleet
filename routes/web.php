@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\VehicleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,4 +35,6 @@ Route::prefix('admin')->group(function() {
     Route::post('/profile', [AccountController::class, 'profile']);
     Route::post('/password', [AccountController::class, 'password']);
     Route::post('/avatar', [AccountController::class, 'avatar']);
+    Route::post('/vehicle', [VehicleController::class, 'add']);
+    Route::get('/vehicle', [VehicleController::class, 'getList']);
 });

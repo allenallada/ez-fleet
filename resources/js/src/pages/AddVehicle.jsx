@@ -3,36 +3,76 @@ import {
     Box,
     Button,
     Stack,
-    TextField,
     Typography,
     Unstable_Grid2 as Grid,
     Card,
     Container,
-    CardHeader,
     CardContent,
     CardActions,
     Divider,
     Avatar,
-    FormLabel,
-    RadioGroup,
-    FormControlLabel,
-    Radio,
-    SvgIcon
+    SvgIcon,
+    Alert
 } from '@mui/material';
 import { Layout as DashboardLayout } from '../layout/dashboard/layout';
-import { Link as ReactLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ArrowLeftIcon from '@heroicons/react/24/solid/ArrowLeftIcon';
+import VehicleInformation from '../sections/vehicles/vehicle-information';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import AvatarSelect from '../components/select-avatar-dialog';
 import Admin from '../axios/admin';
-import nProgress from 'nprogress';
+import { vehicleConfig } from '../utils/avatar-list-config';
+import { useDispatch } from 'react-redux';
+import { updateToast } from '../../stores/admin-store';
+import { getVehicleFormik } from '../utils/formik-config';
 
 const AddVehicles = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const [mode, setMode] = useState(false);
+    const [event, setEvent] = useState(null);
+
+    const avatarClick = (event) => {
+        setEvent(event)
+        setMode(true);
+    }
+
+    const onSubmit = async (values, helpers) => {
+        Admin.addVehicle(values).then(res => res.data)
+        .then((data) => {
+            if(data.success) {
+                dispatch(updateToast({
+                    message : 'Vehicle Added!',
+                    severity : 'success'
+                }));
+                navigate('/vehicles');
+            } else {
+                dispatch(updateToast({
+                    message : data.message,
+                    severity : 'error'
+                }));
+            }
+        });
+    }
+
+    const formik = useFormik(getVehicleFormik(onSubmit));
+
+    const selectHandler = (src) => {
+        const event = {
+            target : {
+                value : src,
+                name : 'image_src'
+            }
+        }
+        formik.handleChange(event);
+        formik.setFieldError('image_src');
+    }
 
     return (
         <Box component="main" sx={{ flexGrow: 1, py: 8 }}>
+            {mode && <AvatarSelect selectHandler={selectHandler} config={vehicleConfig} event={event}/>}
             <Container maxWidth="lg">
             <Stack spacing={3}>
                 <Stack direction="row" justifyContent="space-between" spacing={4} >
@@ -45,73 +85,28 @@ const AddVehicles = () => {
                     <Grid container spacing={3} >
                         <Grid  xs={12} md={6} lg={4} >
                             <Card>
-                                {/* <ToastAlert toast={toast} /> */}
-                                {/* {event && <AvatarSelect selectHandler={selectHandler} event={event}/>} */}
                                 <CardContent>
                                     <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
-                                    <Avatar sx={{ height: 80, mb: 2, width: 80 }}>
-                                        <Avatar src={`${import.meta.env.VITE_APP_URL}/img/vehicles/fallback.png`} sx={{ height: 80, width: 80 }}/>
-                                    </Avatar>
-                                    <Typography gutterBottom variant="h5">
-                                        {}
-                                    </Typography>
+                                        <Avatar src={formik.values.image_src} sx={{ height: 80, mb: 2, width: 80 }}>
+                                            <Avatar src={`${import.meta.env.VITE_APP_URL}/img/vehicles/fallback.png`} sx={{ height: 80, width: 80 }}/>
+                                        </Avatar>
+                                        <Typography gutterBottom variant="h5">
+                                            {}
+                                        </Typography>
+                                        {!!(formik.touched.image_src && formik.errors.image_src) && (<Alert severity="error">Please Select an Avatar</Alert>)}
                                     </Box>
                                 </CardContent>
                                 <Divider />
                                 <CardActions>
                                     <>
-                                        <Button fullWidth variant="outlined" >
+                                        <Button fullWidth variant="outlined" onClick={avatarClick} >
                                             Select Avatar
                                         </Button>
                                     </>
                                 </CardActions>
                             </Card>
                         </Grid>
-                        <Grid xs={12} md={6} lg={8} >
-                            <Card>
-                                <CardHeader subheader="Enter your vehicle information" title="Vehicle Information" />
-                                <form autoComplete="off" >
-                                    <CardContent sx={{ pt: 0 }}>
-                                        <Box sx={{ m: -1.5 }}>
-                                            <Grid container spacing={3}>
-                                                <Grid xs={12}>
-                                                    <TextField fullWidth label="Plate Number *" type="text"
-                                                        name="plate_number"
-                                                    />
-                                                </Grid>
-                                                <Grid xs={12}>
-                                                    <TextField fullWidth label="Brand *" type="text"
-                                                        name="brand"
-                                                    />
-                                                </Grid>
-                                                <Grid xs={12}>
-                                                    <TextField fullWidth label="Model *" type="text"
-                                                        name="model"
-                                                    />
-                                                </Grid>
-                                                <Grid xs={12}>
-                                                    <FormLabel id="demo-row-radio-buttons-group-label">Status</FormLabel>
-                                                    <RadioGroup
-                                                        row
-                                                        aria-labelledby="demo-row-radio-buttons-group-label"
-                                                        name="row-radio-buttons-group"
-                                                    >
-                                                        <FormControlLabel value="active" control={<Radio />} label="Active" />
-                                                        <FormControlLabel value="inactive" control={<Radio />} label="Inactive" />
-                                                        <FormControlLabel value="repair" control={<Radio />} label="For Repair" />
-                                                    </RadioGroup>
-                                                </Grid>
-                                            </Grid>
-                                        </Box>
-                                    </CardContent>
-                                <CardActions sx={{ justifyContent: 'flex-end' }}>
-                                    <Button type="submit" variant="contained">
-                                        Add Vehicle
-                                    </Button>
-                                </CardActions>
-                                </form>
-                            </Card>
-                        </Grid>
+                        <VehicleInformation formik={formik} />
                     </Grid>
                 </Stack>
             </Stack>
@@ -123,7 +118,7 @@ const AddVehicles = () => {
 
 AddVehicles.getLayout = (page) => (
     <DashboardLayout>
-      {page}
+        {page}
     </DashboardLayout>
 );
 

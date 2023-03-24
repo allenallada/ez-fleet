@@ -1,5 +1,4 @@
 import ChartBarIcon from '@heroicons/react/24/solid/ChartBarIcon';
-import CogIcon from '@heroicons/react/24/solid/CogIcon';
 import UserIcon from '@heroicons/react/24/solid/UserIcon';
 import UserGroupIcon from '@heroicons/react/24/solid/UserGroupIcon';
 import TruckIcon from '@heroicons/react/24/solid/TruckIcon';
@@ -44,16 +43,6 @@ export const items = [
         icon: (
             <SvgIcon fontSize="small">
                 <UserIcon />
-            </SvgIcon>
-        ),
-        sub : []
-    },
-    {
-        title: 'Settings',
-        to: '/settings',
-        icon: (
-            <SvgIcon fontSize="small">
-                <CogIcon />
             </SvgIcon>
         ),
         sub : []

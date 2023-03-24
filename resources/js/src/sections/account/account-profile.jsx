@@ -6,7 +6,7 @@ import {
     CardActions,
     CardContent,
     Divider,
-    Typography,
+    Typography
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { updateToast } from '../../../stores/admin-store';
 import Admin from '../../axios/admin';
 import AvatarSelect from '../../components/select-avatar-dialog';
-import { ToastAlert } from '../../components/toast-alert';
+import { profileConfig } from '../../utils/avatar-list-config';
   
 export const AccountProfile = () => {
 
@@ -27,11 +27,6 @@ export const AccountProfile = () => {
     const [mode, setMode] = useState(false);
     const [avatarSrc, setSrc] = useState(details.image_src);
     const [event, setEvent] = useState(null);
-
-    const [toast, setToast] = useState({
-        message : '',
-        severity : 'success'
-    });
 
     const avatarClick = (event) => {
         setEvent(event);
@@ -72,45 +67,45 @@ export const AccountProfile = () => {
     }
 
     return (
-    <Card>
-        {event && <AvatarSelect selectHandler={selectHandler} event={event}/>}
-        <CardContent>
-            <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
-            <Avatar src={avatarSrc} sx={{ height: 80, mb: 2, width: 80 }}
-            />
-            <Typography gutterBottom variant="h5">
-                {details.user_name}
-            </Typography>
-            <Typography color="text.secondary" variant="body2" >
-                Admin
-            </Typography>
-            </Box>
-        </CardContent>
-        <Divider />
-        <CardActions>
-            {
-                !mode && (
+        <Card>
+            {event && <AvatarSelect selectHandler={selectHandler} config={profileConfig} event={event}/>}
+            <CardContent>
+                <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
+                <Avatar src={avatarSrc} sx={{ height: 80, mb: 2, width: 80 }}
+                />
+                <Typography gutterBottom variant="h5">
+                    {details.user_name}
+                </Typography>
+                <Typography color="text.secondary" variant="body2" >
+                    Admin
+                </Typography>
+                </Box>
+            </CardContent>
+            <Divider />
+            <CardActions>
+                {
+                    !mode && (
+                        <>
+                            <Button onClick={avatarClick} fullWidth variant="contained" >
+                                Change Avatar
+                            </Button>
+                        </>
+                    )
+                }
+                {
+                    mode && (
                     <>
-                        <Button onClick={avatarClick} fullWidth variant="contained" >
-                            Change Avatar
+                        <Button onClick={cancelHandler} fullWidth variant="outlined" >
+                            Cancel
+                        </Button>
+                        <Button onClick={confirmHandler} fullWidth variant="contained" >
+                            Confirm
                         </Button>
                     </>
-                )
-            }
-            {
-                mode && (
-                <>
-                    <Button onClick={cancelHandler} fullWidth variant="outlined" >
-                        Cancel
-                    </Button>
-                    <Button onClick={confirmHandler} fullWidth variant="contained" >
-                        Confirm
-                    </Button>
-                </>
-                )
-            }
-                
-        </CardActions>
-    </Card>)
+                    )
+                }
+            </CardActions>
+        </Card>
+    )
 };
   

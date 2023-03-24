@@ -122,7 +122,7 @@ const AddVehicles = () => {
 
 AddVehicles.getLayout = (page) => (
     <DashboardLayout>
-      {page}
+        {page}
     </DashboardLayout>
 );
 

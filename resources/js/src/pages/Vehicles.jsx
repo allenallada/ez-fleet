@@ -103,7 +103,7 @@ const Vehicles = () => {
 
 Vehicles.getLayout = (page) => (
     <DashboardLayout>
-      {page}
+        {page}
     </DashboardLayout>
 );
 
