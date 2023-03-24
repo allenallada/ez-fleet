@@ -14,7 +14,7 @@ import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { getRegisterFormik } from '../utils/formik-config';
 import nProgress from 'nprogress';
-import Auth from '../axios/Auth';
+import Auth from '../axios/auth';
 
 const Register = () => {
 
