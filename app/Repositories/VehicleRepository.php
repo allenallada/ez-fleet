@@ -9,8 +9,6 @@ class VehicleRepository implements CRUDInterface
 {
     private $model;
 
-    private $accountNo;
-
     function __construct(Vehicle $model)
     {
         $this->model = $model;
