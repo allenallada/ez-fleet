@@ -1,11 +1,14 @@
 import {configureStore} from '@reduxjs/toolkit';
 import adminReducer, { settingsSlice } from './slices/adminSlice';
+import vehicleReduer, {vehicleSlice} from './slices/vehicleSlice';
 
 export default configureStore({
     reducer : {
-        admin : adminReducer
+        admin : adminReducer,
+        vehicle : vehicleReduer
     }
 });
 
-export const {updateLogin, updateDetails} = settingsSlice.actions;
+export const {updateLogin, updateDetails, updateToast} = settingsSlice.actions;
+export const {updateVehicles, updateCount} = vehicleSlice.actions;
 

@@ -3,68 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\AccountService;
+use App\Repositories\AccountRepository;
 
 class AccountController extends Controller
 {
-    public $service;
+    public $repository;
 
-    function __construct(AccountService $service)
+    function __construct(AccountRepository $repository)
     {
-        $this->service = $service;
-    }
-
-
-    public function register(Request $req)
-    {   
-        $par = $req->only([
-            'userName',
-            'firstName',
-            'lastName',
-            'password'
-        ]);
-
-        return $this->service->register($par);
-    }
-
-
-    public function login(Request $req)
-    {   
-        $par = $req->only([
-            'username',
-            'password',
-        ]);
-
-        return $this->service->login($par);
-    }
-
-
-    public function status()
-    {   
-        return $this->service->status();
-    }
-
-
-    public function details()
-    {   
-        return $this->service->details();
+        $this->repository = $repository;
     }
 
     public function profile(Request $req)
     {   
-        $par = $req->only(['email', 'mobile', 'first_name', 'last_name', 'password']);
-        return $this->service->updProfile($par);
+        $params = $req->only(['email', 'mobile', 'first_name', 'last_name', 'password']);
+        return $this->repository->update($params);
     }
 
     public function password(Request $req)
     {   
-        $par = $req->only(['n_password', 'password']);
-        return $this->service->updProfile($par);
+        $params = $req->only(['n_password', 'password']);
+        return $this->repository->update($params);
     }
 
     public function avatar(Request $req)
     {   
-        $par = $req->only(['image_src']);
-        return $this->service->updProfile($par, false);
+        $params = $req->only(['image_src']);
+        return $this->repository->update($params, false);
     }
 }

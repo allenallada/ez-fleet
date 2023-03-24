@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import {useSelector , useDispatch} from 'react-redux';
 import { Outlet, Navigate } from 'react-router-dom';
 import { updateLogin } from '../../stores/admin-store';
-import Admin from '../axios/admin';
+import Auth from '../axios/Auth';
 
 const GuardedRoutes = () => {
     const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const GuardedRoutes = () => {
         return {auth : state.admin.login}
     });
     useEffect(()=> {
-        !auth && Admin.status().then(res => {
+        !auth && Auth.status().then(res => {
             dispatch(updateLogin(res.data.auth));
             setProgress(false);
         });

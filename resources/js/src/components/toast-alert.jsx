@@ -16,7 +16,7 @@ export const ToastAlert = ({toast}) => {
     }, [toast]);
 
     return (
-        <Snackbar open={open} onClose={closeHandler} autoHideDuration={4000}>
+        <Snackbar open={open} onClose={closeHandler} autoHideDuration={4000} anchorOrigin={{vertical : 'top', horizontal :'center'}}>
             <Alert onClose={closeHandler} severity={toast.severity} sx={{ width: '100%' }}>
                 {toast.message}
             </Alert>

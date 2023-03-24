@@ -10,12 +10,12 @@ import {
 import { Layout as AuthLayout } from '../layout/auth/Layout';
 import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import nProgress from 'nprogress';
-import Admin from '../axios/admin';
+import Auth from '../axios/auth';
 import { useState } from 'react';
 import { updateLogin } from '../../stores/admin-store';
 import { useDispatch } from 'react-redux';
+import { getLoginFormik } from '../utils/formik-config';
 
 const Login = () => {
 
@@ -30,34 +30,25 @@ const Login = () => {
 
     const [alert, setAlert] = useState(alertdef);
 
-    const formik = useFormik({
-        initialValues : {
-            username : '',
-            password : ''
-        },
-        validationSchema : Yup.object({
-            username : Yup.string()
-            .required('Username is Required'),
-            password : Yup.string()
-            .required('Password is Required')
-        }),
-        onSubmit : async (values, helpers) => {
-            nProgress.start();
-            setAlert(alertdef);
-            Admin.login(values).then(res => {
-                console.log(res.data);
-                !res.data.success && (setAlert({
-                    'show' : true,
-                    'type' : 'error',
-                    'message' : res.data.message
-                }));
-                res.data.success && (() => {
-                    dispatch(updateLogin(true));
-                    navigate('/overview');
-                })()
-            });
-        }
-    })
+    const onSubmit = async (values, helpers) => {
+        nProgress.start();
+        setAlert(alertdef);
+        Auth.login(values).then(res => {
+            console.log(res.data);
+            !res.data.success && (setAlert({
+                'show' : true,
+                'type' : 'error',
+                'message' : res.data.message
+            }));
+            res.data.success && (() => {
+                dispatch(updateLogin(true));
+                navigate('/overview');
+            })()
+            nProgress.done();
+        });
+    }
+
+    const formik = useFormik(getLoginFormik(onSubmit));
 
     return (
         <Box
@@ -107,9 +98,9 @@ const Login = () => {
 }
 
 Login.getLayout = (page) => (
-  <AuthLayout>
-    {page}
-  </AuthLayout>
+    <AuthLayout>
+        {page}
+    </AuthLayout>
 );
 
 

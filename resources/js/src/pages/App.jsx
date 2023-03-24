@@ -8,7 +8,6 @@ import Overview from './Overview';
 import Vehicles from './Vehicles';
 import Drivers from './Drivers';
 import Account from './Account';
-import Settings from './Settings';
 import AddVehicle from './AddVehicle';
 import GuardedRoutes from '../utils/auth';
 
@@ -47,10 +46,6 @@ const App = () => {
         {
             path : '/account',
             element : Account
-        },
-        {
-            path : '/settings',
-            element : Settings
         },
         {
             path : '/add-vehicle',

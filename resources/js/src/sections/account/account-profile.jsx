@@ -6,16 +6,19 @@ import {
     CardActions,
     CardContent,
     Divider,
-    Typography,
+    Typography
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import Admin from '../../axios/admin';
-import AvatarSelect from '../../components/select-avatar-dialog';
-import { ToastAlert } from '../../components/toast-alert';
+import { updateToast } from '../../../stores/admin-store';
+import Account from '../../axios/account';
+import AvatarSelect from '../common/select-avatar-dialog';
+import { profileConfig } from '../../utils/avatar-list-config';
   
 export const AccountProfile = () => {
 
+    const dispatch = useDispatch();
     const {details} = useSelector(state => {
         return  {details : state.admin.details}
     });
@@ -23,13 +26,7 @@ export const AccountProfile = () => {
     //update mode
     const [mode, setMode] = useState(false);
     const [avatarSrc, setSrc] = useState(details.image_src);
-
     const [event, setEvent] = useState(null);
-
-    const [toast, setToast] = useState({
-        message : '',
-        severity : 'success'
-    });
 
     const avatarClick = (event) => {
         setEvent(event);
@@ -40,72 +37,75 @@ export const AccountProfile = () => {
             setMode(true);
             setSrc(src);
         }
-
     }
 
     const cancelHandler = () => {
         setMode(false);
         setSrc(details.image_src);
     }
+
+    useEffect(() => {
+        setSrc(details.image_src);
+    }, [details])
     
     const confirmHandler = () => {
         setMode(false);
-        Admin.updAvatar({image_src : avatarSrc}).then(res => res.data)
+        Account.updAvatar({image_src : avatarSrc}).then(res => res.data)
         .then(data => {
             if (data.success === true) {
-                setToast({
+                dispatch(updateToast({
                     message : 'Avatar updated',
                     severity : 'success'
-                })
+                }));
             } else {
-                setToast({
+                dispatch(updateToast({
                     message : 'Something went wrong',
                     severity : 'error'
-                })
+                }));
             }
         });
     }
 
-    return (<Card>
-        <ToastAlert toast={toast} />
-        {event && <AvatarSelect selectHandler={selectHandler} event={event}/>}
-        <CardContent>
-            <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
-            <Avatar src={avatarSrc} sx={{ height: 80, mb: 2, width: 80 }}
-            />
-            <Typography gutterBottom variant="h5">
-                {details.user_name}
-            </Typography>
-            <Typography color="text.secondary" variant="body2" >
-                Admin
-            </Typography>
-            </Box>
-        </CardContent>
-        <Divider />
-        <CardActions>
-            {
-                !mode && (
+    return (
+        <Card>
+            {event && <AvatarSelect selectHandler={selectHandler} config={profileConfig} event={event}/>}
+            <CardContent>
+                <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
+                <Avatar src={avatarSrc} sx={{ height: 80, mb: 2, width: 80 }}
+                />
+                <Typography gutterBottom variant="h5">
+                    {details.user_name}
+                </Typography>
+                <Typography color="text.secondary" variant="body2" >
+                    Admin
+                </Typography>
+                </Box>
+            </CardContent>
+            <Divider />
+            <CardActions>
+                {
+                    !mode && (
+                        <>
+                            <Button onClick={avatarClick} fullWidth variant="contained" >
+                                Change Avatar
+                            </Button>
+                        </>
+                    )
+                }
+                {
+                    mode && (
                     <>
-                        <Button onClick={avatarClick} fullWidth variant="contained" >
-                            Change Avatar
+                        <Button onClick={cancelHandler} fullWidth variant="outlined" >
+                            Cancel
+                        </Button>
+                        <Button onClick={confirmHandler} fullWidth variant="contained" >
+                            Confirm
                         </Button>
                     </>
-                )
-            }
-            {
-                mode && (
-                <>
-                    <Button onClick={cancelHandler} fullWidth variant="outlined" >
-                        Cancel
-                    </Button>
-                    <Button onClick={confirmHandler} fullWidth variant="contained" >
-                        Confirm
-                    </Button>
-                </>
-                )
-            }
-                
-        </CardActions>
-    </Card>)
+                    )
+                }
+            </CardActions>
+        </Card>
+    )
 };
   

@@ -12,7 +12,8 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-    Typography
+    Typography,
+    Chip
 } from '@mui/material';
 import { Scrollbar } from '../../components/scrollbar';
 
@@ -26,14 +27,13 @@ export const VehiclesTable = (props) => {
         onRowsPerPageChange,
         onSelectAll,
         onSelectOne,
-        page = 0,
+        page = 1,
         rowsPerPage = 0,
         selected = []
     } = props;
 
     const selectedSome = (selected.length > 0) && (selected.length < items.length);
     const selectedAll = (items.length > 0) && (selected.length === items.length);
-
     return (
         <Card>
             <Box sx={{ minWidth: 800 }}>
@@ -43,75 +43,114 @@ export const VehiclesTable = (props) => {
                             <TableRow>
                                 <TableCell padding="checkbox">
                                     <Checkbox checked={selectedAll} indeterminate={selectedSome} onChange={(event) => {
-                                            if (event.target.checked) {
-                                                onSelectAll?.();
-                                            } else {
+                                            if (selectedSome) {
                                                 onDeselectAll?.();
+                                            } else {
+                                                selectedAll && onDeselectAll?.();
+                                                !selectedAll && onSelectAll?.();
                                             }
                                         }}
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    Plate Number
+                                    <Box display="flex" justifyContent="center">
+                                        Plate Number
+                                    </Box>
                                 </TableCell>
                                 <TableCell>
-                                    Brand
+                                    <Box display="flex" justifyContent="center">
+                                        Brand
+                                    </Box>
                                 </TableCell>
                                 <TableCell>
-                                    Model
+                                    <Box display="flex" justifyContent="center">
+                                        Model
+                                    </Box>
                                 </TableCell>
                                 <TableCell>
-                                    Status
+                                    <Box display="flex" justifyContent="center">
+                                        Status
+                                    </Box>
                                 </TableCell>
                                 <TableCell>
-                                    Driver
+                                    <Box display="flex" justifyContent="center">
+                                        Driver
+                                    </Box>
                                 </TableCell>
                                 <TableCell>
-                                    Added
+                                    <Box display="flex" justifyContent="center">
+                                        Date Added
+                                    </Box>
                                 </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {items.map((vehicle) => {
-                                const isSelected = selected.includes(vehicle.id);
+                                const createdAt = format(new Date(vehicle.creation_date), 'dd/MM/yyyy');
+                                const isSelected = selected.includes(vehicle.vehicle_no);
                                 return (
-                                    <TableRow hover key={vehicle.id} selected={isSelected} >
+                                    <TableRow hover key={vehicle.vehicle_no} selected={isSelected} >
                                         <TableCell padding="checkbox">
                                             <Checkbox style={{zIndex:'1'}} checked={isSelected}
                                                 onChange={(event) => {
                                                     if (event.target.checked) {
-                                                        onSelectOne?.(vehicle.id);
+                                                        onSelectOne?.(vehicle.vehicle_no);
                                                     } else {
-                                                        onDeselectOne?.(vehicle.id);
+                                                        onDeselectOne?.(vehicle.vehicle_no);
                                                     }
                                                 }}
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            {vehicle.plate_number}
+                                            <Box display="flex" justifyContent="center">
+                                                <Stack alignItems="center" direction="row" spacing={2} >
+                                                    <Avatar style={{zIndex:'1'}} src={vehicle.image_src}>
+                                                        {vehicle.plate_number}
+                                                        {/* {getInitials(customer.name)} */}
+                                                    </Avatar>
+                                                    <Typography variant="subtitle2">
+                                                        {/* {vehicle.driver.name} */}
+                                                        {vehicle.plate_number}
+                                                    </Typography>
+                                                </Stack>
+                                            </Box>
                                         </TableCell>
                                         <TableCell>
-                                            {vehicle.brand}
+                                            <Box display="flex" justifyContent="center">
+                                                {vehicle.brand}
+                                            </Box>
                                         </TableCell>
                                         <TableCell>
-                                            {vehicle.model}
+                                            <Box display="flex" justifyContent="center">
+                                                {vehicle.model}
+                                            </Box>
                                         </TableCell>
                                         <TableCell>
-                                            {vehicle.status}
+                                            <Box display="flex" justifyContent="center">
+                                                {vehicle.status === 'active' &&  <Chip label="Active" color="success" />}
+                                                {vehicle.status === 'inactive' &&  <Chip label="Inactive" />}
+                                                {vehicle.status === 'repair' &&  <Chip label="For Repair" color="error" />}
+                                            </Box>
                                         </TableCell>
                                         <TableCell>
-                                            <Stack alignItems="center" direction="row" spacing={2} >
-                                                <Avatar style={{zIndex:'1'}} src={vehicle.driver.avatar}>
-                                                    {vehicle.driver.name}
+                                            <Box display="flex" justifyContent="center">
+                                                not set
+                                            </Box>
+                                            {/* <Stack alignItems="center" direction="row" spacing={2} > */}
+                                                {/* <Avatar style={{zIndex:'1'}} src={vehicle.image_src}> */}
+                                                    {/* test */}
                                                     {/* {getInitials(customer.name)} */}
-                                                </Avatar>
-                                                <Typography variant="subtitle2">
-                                                    {vehicle.driver.name}
-                                                </Typography>
-                                            </Stack>
+                                                {/* </Avatar> */}
+                                                {/* <Typography variant="subtitle2"> */}
+                                                    {/* {vehicle.driver.name} */}
+                                                    {/* test */}
+                                                {/* </Typography> */}
+                                            {/* </Stack> */}
                                         </TableCell>
                                         <TableCell>
-                                            {vehicle.created_at}
+                                            <Box display="flex" justifyContent="center">
+                                                {createdAt}
+                                            </Box>
                                         </TableCell>
                                     </TableRow>
                                 );
@@ -144,5 +183,6 @@ VehiclesTable.propTypes = {
     onSelectOne: PropTypes.func,
     page: PropTypes.number,
     rowsPerPage: PropTypes.number,
-    selected: PropTypes.array
+    selected: PropTypes.array,
+    loading : PropTypes.bool
 };

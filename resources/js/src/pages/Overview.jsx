@@ -10,7 +10,7 @@ const Overview = () => {
 
 Overview.getLayout = (page) => (
     <DashboardLayout>
-      {page}
+        {page}
     </DashboardLayout>
 );
 

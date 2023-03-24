@@ -10,7 +10,7 @@ const Drivers = () => {
 
 Drivers.getLayout = (page) => (
     <DashboardLayout>
-      {page}
+        {page}
     </DashboardLayout>
 );
 

@@ -12,9 +12,9 @@ import {
 import { Layout as AuthLayout} from '../layout/auth/Layout';
 import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import Admin from '../axios/admin';
+import { getRegisterFormik } from '../utils/formik-config';
 import nProgress from 'nprogress';
+import Auth from '../axios/Auth';
 
 const Register = () => {
 
@@ -28,63 +28,33 @@ const Register = () => {
 
     const [alert, setAlert] = useState(alertdef);
 
-    const formik = useFormik({
-        initialValues: {
-            userName: '',
-            firstName: '',
-            lastName: '',
-            password: '',
-            cPassword: '',
-            submit: null
-        },
-        validationSchema: Yup.object({
-            userName: Yup.string()
-            .label('Username')
-            .max(20)
-            .min(3)
-            .required('Username is required'),
-            firstName: Yup.string()
-            .label('First name')
-            .max(50)
-            .required('First Name is required'),
-            lastName: Yup.string()
-            .label('Last name')
-            .max(50)
-            .min(3),
-            password: Yup.string()
-            .label('Password')
-            .max(50)
-            .min(8)
-            .required('Password is required'),
-            cPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        }),
-        onSubmit: async (values, helpers) => {
-            nProgress.start();
-            setAlert(alertdef);
-            Admin.register(values).then(res => {
-                const data = res.data;
-                if (data.success === false) {
+    const onSubmit = async (values, helpers) => {
+        nProgress.start();
+        setAlert(alertdef);
+        Auth.register(values).then(res => {
+            const data = res.data;
+            if (data.success === false) {
+                nProgress.done();
+                setAlert({
+                    'show' : true,
+                    'type' : 'error',
+                    'message' : data.message
+                });
+            } else {
+                setAlert({
+                    'show' : true,
+                    'type' : 'success',
+                    'message' : 'Successfully Registered, Redirecting to Signin..'
+                });
+                setTimeout(()=> {
                     nProgress.done();
-                    setAlert({
-                        'show' : true,
-                        'type' : 'error',
-                        'message' : data.message
-                    });
-                } else {
-                    setAlert({
-                        'show' : true,
-                        'type' : 'success',
-                        'message' : 'Successfully Registered, Redirecting to Signin..'
-                    });
-                    setTimeout(()=> {
-                        nProgress.done();
-                        navigate('/');
-                    }, 1000);
-                }
-            });
-        }
-    });
+                    navigate('/');
+                }, 1000);
+            }
+        });
+    }
+
+    const formik = useFormik(getRegisterFormik(onSubmit));
 
     return (
         <Box
@@ -169,7 +139,7 @@ const Register = () => {
 
 Register.getLayout = (page) => (
     <AuthLayout>
-      {page}
+        {page}
     </AuthLayout>
 );
 
