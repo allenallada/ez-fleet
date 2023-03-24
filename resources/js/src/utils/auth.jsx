@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import {useSelector , useDispatch} from 'react-redux';
 import { Outlet, Navigate } from 'react-router-dom';
 import { updateLogin } from '../../stores/admin-store';
-import Auth from '../axios/Auth';
+import Auth from '../axios/auth';
 
 const GuardedRoutes = () => {
     const dispatch = useDispatch();
