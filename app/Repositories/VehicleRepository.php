@@ -3,9 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\Vehicle;
-use App\Repositories\Interface\CRUDInterface;
+use App\Repositories\Interface\DeleteableEntityInterface;
+use App\Repositories\Interface\GenericEntityInterface;
+use App\Repositories\Interface\ListableEntityInterface;
 
-class VehicleRepository implements CRUDInterface
+class VehicleRepository implements GenericEntityInterface, ListableEntityInterface, DeleteableEntityInterface
 {
     private $model;
 

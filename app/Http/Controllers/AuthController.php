@@ -14,18 +14,6 @@ class AuthController extends Controller
         $this->repository = $repository;
     }
 
-    public function register(Request $req)
-    {   
-        $par = $req->only([
-            'userName',
-            'firstName',
-            'lastName',
-            'password'
-        ]);
-
-        return $this->repository->register($par);
-    }
-
     public function login(Request $req)
     {   
         $par = $req->only([
@@ -39,10 +27,5 @@ class AuthController extends Controller
     public function status()
     {   
         return $this->repository->status();
-    }
-
-    public function details()
-    {   
-        return $this->repository->details();
     }
 }

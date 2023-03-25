@@ -31,4 +31,22 @@ class AccountController extends Controller
         $params = $req->only(['image_src']);
         return $this->repository->update($params, false);
     }
+
+    public function register(Request $req)
+    {   
+        $par = $req->only([
+            'userName',
+            'firstName',
+            'lastName',
+            'password'
+        ]);
+
+        return $this->repository->store($par);
+    }
+
+
+    public function details($id)
+    {   
+        return $this->repository->get($id);
+    }
 }

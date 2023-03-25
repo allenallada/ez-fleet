@@ -3,9 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Account;
+use App\Repositories\Interface\GenericEntityInterface;
 use Illuminate\Support\Facades\Hash;
 
-class AccountRepository
+class AccountRepository implements GenericEntityInterface
 {
     private $model;
 
@@ -45,6 +46,51 @@ class AccountRepository
                 'email'      => $acc['email'],
                 'mobile'     => $acc['mobile']
             ]
+        ];
+    }
+
+    function store($par)
+    {
+        $acc = $this->model->where('user_name', $par['userName'])->get();
+        if (count($acc) > 0) {
+            return [
+                'success' => false,
+                'message' => 'Username is not available'
+            ];
+        }
+
+        $data = [
+            'user_name' => $par['userName'],
+            'first_name' => $par['firstName'],
+            'last_name' => $par['lastName'],
+            'password' => Hash::make($par['password']),
+            'is_verified' => false // default for initial dev
+        ];
+
+        $res = $this->model->create($data);
+
+        return [
+            'success' => true,
+            'account' => [
+                'user_name' => $res['user_name'],
+                'first_name' => $res['first_name'],
+                'last_name' => $res['last_name']
+            ]
+        ];
+    }
+
+    function get($id)
+    {
+        $username = session()->get('user');
+        $acc = $this->model->where('user_name', $username)->first();
+
+        return [
+            'user_name'  => $acc['user_name'],
+            'first_name' => $acc['first_name'],
+            'last_name'  => $acc['last_name'],
+            'email'      => $acc['email'],
+            'mobile'     => $acc['mobile'],
+            'image_src'  => $acc['image_src'],
         ];
     }
 }

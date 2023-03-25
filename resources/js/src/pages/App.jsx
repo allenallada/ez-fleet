@@ -8,7 +8,7 @@ import Overview from './Overview';
 import Vehicles from './Vehicles';
 import Drivers from './Drivers';
 import Account from './Account';
-import AddVehicle from './AddVehicle';
+import VehicleForm from './VehicleForm';
 import GuardedRoutes from '../utils/auth';
 
 const App = () => {
@@ -49,7 +49,7 @@ const App = () => {
         },
         {
             path : '/add-vehicle',
-            element : AddVehicle
+            element : VehicleForm
         }
     ]
 

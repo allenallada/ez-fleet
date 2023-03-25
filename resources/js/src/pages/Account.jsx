@@ -6,7 +6,7 @@ import { AccountProfile } from '../sections/account/account-profile';
 import { AccountProfileDetails } from '../sections/account/account-profile-details';
 import { useDispatch } from "react-redux"
 import { updateDetails } from "../../stores/admin-store";
-import Auth from '../axios/auth';
+import Api from '../axios/account';
 
 const Account = () => {
     const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const Account = () => {
 
     const reloadDetails = () => {
         dispatch(updateDetails(false));
-        Auth.details().then(res => res.data).then(data => {
+        Api.details().then(res => res.data).then(data => {
             dispatch(updateDetails(data));
         })
     }

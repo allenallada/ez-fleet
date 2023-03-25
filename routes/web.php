@@ -26,13 +26,13 @@ Route::get('/add-vehicle', function () {return view('admin');});
 
 
 Route::prefix('auth')->group(function() {
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
     Route::get('/status', [AuthController::class, 'status']);
-    Route::get('/details', [AuthController::class, 'details']);
+    Route::post('/login', [AuthController::class, 'login']);
 });
 
 Route::prefix('account')->group(function() {
+    Route::post('/register', [AccountController::class, 'register']);
+    Route::get('/details', [AccountController::class, 'details']);
     Route::post('/profile', [AccountController::class, 'profile']);
     Route::post('/password', [AccountController::class, 'password']);
     Route::post('/avatar', [AccountController::class, 'avatar']);

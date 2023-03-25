@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelection } from '../utils/use-selection';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Vehicle from '../axios/vehicle';
+import Api from '../axios/vehicle';
 import { useDispatch } from 'react-redux';
 import { updateCount, updateVehicles } from '../../stores/admin-store';
 
@@ -54,10 +54,10 @@ const Vehicles = () => {
             limit : rowsPerPage,
             offset : page * rowsPerPage
         }
-        Vehicle.getVehicles(searchParams).then(res => res.data).then(data => {
+        Api.getVehicles(searchParams).then(res => res.data).then(data => {
             dispatch(updateVehicles(data));
         });
-        Vehicle.getCount(searchParams).then(res => res.data).then(data => {
+        Api.getCount(searchParams).then(res => res.data).then(data => {
             dispatch(updateCount(data.count));
         });
     };

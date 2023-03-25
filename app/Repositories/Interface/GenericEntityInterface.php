@@ -2,11 +2,8 @@
 
 namespace App\Repositories\Interface;
 
-interface CRUDInterface {
+interface GenericEntityInterface {
     public function store($params);
     public function update($params);
     public function get($id);
-    public function list($params);
-    public function delete($id);
-    public function count($id);
 }

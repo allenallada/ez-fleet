@@ -1,14 +1,14 @@
 import axios from "axios";
 
-const Vehicle = axios.create({
+const Api = axios.create({
     baseURL: `${import.meta.env.VITE_APP_URL}/vehicle`,
     timeout: 1000,
 });
 
-Vehicle.addVehicle = (params) => Vehicle.post('', params);
+Api.addVehicle = (params) => Api.post('', params);
 
-Vehicle.getVehicles = (params) => Vehicle.get('', {params});
+Api.getVehicles = (params) => Api.get('', {params});
 
-Vehicle.getCount = (params) => Vehicle.get('/count', {params});
+Api.getCount = (params) => Api.get('/count', {params});
 
-export default Vehicle;
+export default Api;

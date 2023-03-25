@@ -1,16 +1,12 @@
 import axios from "axios";
 
-const Auth = axios.create({
+const Api = axios.create({
     baseURL: `${import.meta.env.VITE_APP_URL}/auth`,
     timeout: 1000,
 });
 
-Auth.login = (params) => Auth.post('/login', params);
+Api.status = () => Api.get('/status');
 
-Auth.register = (params) => Auth.post('/register', params);
+Api.login = (params) => Api.post('/login', params);
 
-Auth.status = () => Auth.get('/status');
-
-Auth.details = () => Auth.get('/details');
-
-export default Auth;
+export default Api;
