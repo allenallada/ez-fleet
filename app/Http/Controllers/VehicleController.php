@@ -47,4 +47,28 @@ class VehicleController extends Controller
             'count' => $this->repository->count($params)
         ];
     }
+
+    public function delete(Request $request)
+    {   
+        $params = $request->only(['vehicle_no']);
+        return [
+            'success' =>  $this->repository->delete($params) === 1
+        ];
+    }
+
+    public function update(Request $request)
+    {   
+        $params = $request->only([
+            'vehicle_no',
+            'plate_number',
+            'brand',
+            'model',
+            'plate_number',
+            'status',
+            'image_src'
+        ]);
+        return [
+            'success' =>  $this->repository->update($params) === 1
+        ];
+    }
 }

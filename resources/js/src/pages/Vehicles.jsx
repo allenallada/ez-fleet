@@ -6,9 +6,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelection } from '../utils/use-selection';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Vehicle from '../axios/vehicle';
+import Api from '../axios/vehicle';
 import { useDispatch } from 'react-redux';
-import { updateCount, updateVehicles } from '../../stores/admin-store';
+import { updateCount, updateForm, updateToast, updateVehicles } from '../../stores/admin-store';
+import Confirm from '../components/confirm-dialog';
 
 const useVehicleIds = (vehicles) => {
     return useMemo(
@@ -32,7 +33,7 @@ const Vehicles = () => {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [loading, setLoading] = useState(false);
+    const [deleteId, setDeleteId] = useState(false);
     const vehicleIds = useVehicleIds(vehicles);
     const vehicleSelection = useSelection(vehicleIds);
 
@@ -54,18 +55,46 @@ const Vehicles = () => {
             limit : rowsPerPage,
             offset : page * rowsPerPage
         }
-        Vehicle.getVehicles(searchParams).then(res => res.data).then(data => {
-            dispatch(updateVehicles(data));
+        Api.getVehicles(searchParams).then(res => res.data).then(data => {
+            if (data.length === 0 && page !== 0) {
+                setPage(page - 1);
+            } else {
+                dispatch(updateVehicles(data));
+            }
         });
-        Vehicle.getCount(searchParams).then(res => res.data).then(data => {
+        Api.getCount(searchParams).then(res => res.data).then(data => {
             dispatch(updateCount(data.count));
         });
     };
+
+    const onDeleteOne = (id) => {
+        setDeleteId(id);
+    }
+
+    const deleteConfirm = () => {
+        Api.deleteVehicle({
+            vehicle_no : [deleteId]
+        }).then((res) => res.data.success).then(success => {
+            success && getVehicles();
+            dispatch(updateToast({
+                message : "Vehicle Deleted",
+                severity : "success"
+            }))
+        });
+        setDeleteId(false);
+    }
+
+    const onEdit = (vehicle) => {
+        console.log(vehicle)
+        dispatch(updateForm(vehicle));
+        navigate('/update-vehicle')
+    }
 
     useEffect(getVehicles, [page, rowsPerPage]);
 
     return (
         <Box component="main" sx={{ flexGrow: 1, py: 8 }}>
+            <Confirm useTextField={false} title="Confirm delete" content="Delete Vehicle?" confirmHandler={() => deleteConfirm()} closeHandler={() => setDeleteId(false)} open={deleteId} />
             <Container maxWidth="xl">
                 <Stack spacing={3}>
                     <Stack direction="row" justifyContent="space-between" spacing={4} >
@@ -92,7 +121,8 @@ const Vehicles = () => {
                         page={page}
                         rowsPerPage={rowsPerPage}
                         selected={vehicleSelection.selected}
-                        loading={loading}
+                        onDeleteOne={onDeleteOne}
+                        onEdit={onEdit}
                     />
                 </Stack>
             </Container>

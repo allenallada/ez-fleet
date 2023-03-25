@@ -10,5 +10,5 @@ export default configureStore({
 });
 
 export const {updateLogin, updateDetails, updateToast} = settingsSlice.actions;
-export const {updateVehicles, updateCount} = vehicleSlice.actions;
+export const {updateVehicles, updateCount, updateForm} = vehicleSlice.actions;
 

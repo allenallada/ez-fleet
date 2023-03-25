@@ -5,7 +5,6 @@ import {
     Box,
     Card,
     Checkbox,
-    Stack,
     Table,
     TableBody,
     TableCell,
@@ -13,9 +12,14 @@ import {
     TablePagination,
     TableRow,
     Typography,
-    Chip
+    Chip,
+    SvgIcon,
+    IconButton,
+    Stack
 } from '@mui/material';
 import { Scrollbar } from '../../components/scrollbar';
+import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
+import PencilSquareIcon from '@heroicons/react/24/solid/PencilSquareIcon';
 
 export const VehiclesTable = (props) => {
     const {
@@ -29,7 +33,9 @@ export const VehiclesTable = (props) => {
         onSelectOne,
         page = 1,
         rowsPerPage = 0,
-        selected = []
+        selected = [],
+        onDeleteOne,
+        onEdit
     } = props;
 
     const selectedSome = (selected.length > 0) && (selected.length < items.length);
@@ -38,10 +44,10 @@ export const VehiclesTable = (props) => {
         <Card>
             <Box sx={{ minWidth: 800 }}>
                 <Scrollbar style={{maxHeight : '55vh'}}>
-                    <Table>
-                        <TableHead style={{position:'sticky', top: '0', zIndex:'9999'}}>
+                    <Table stickyHeader >
+                        <TableHead>
                             <TableRow>
-                                <TableCell padding="checkbox">
+                                <TableCell align="center" padding="checkbox">
                                     <Checkbox checked={selectedAll} indeterminate={selectedSome} onChange={(event) => {
                                             if (selectedSome) {
                                                 onDeselectAll?.();
@@ -52,46 +58,45 @@ export const VehiclesTable = (props) => {
                                         }}
                                     />
                                 </TableCell>
-                                <TableCell>
-                                    <Box display="flex" justifyContent="center">
+                                <TableCell align="center">
+                                        Avatar
+                                </TableCell>
+                                <TableCell align="center">
                                         Plate Number
-                                    </Box>
                                 </TableCell>
-                                <TableCell>
-                                    <Box display="flex" justifyContent="center">
+                                <TableCell align="center">
                                         Brand
-                                    </Box>
                                 </TableCell>
-                                <TableCell>
-                                    <Box display="flex" justifyContent="center">
+                                <TableCell align="center">
                                         Model
-                                    </Box>
                                 </TableCell>
-                                <TableCell>
-                                    <Box display="flex" justifyContent="center">
+                                <TableCell align="center">
                                         Status
-                                    </Box>
                                 </TableCell>
-                                <TableCell>
-                                    <Box display="flex" justifyContent="center">
+                                <TableCell align="center">
                                         Driver
-                                    </Box>
                                 </TableCell>
-                                <TableCell>
-                                    <Box display="flex" justifyContent="center">
+                                <TableCell align="center">
                                         Date Added
-                                    </Box>
                                 </TableCell>
+                                <TableCell  size="small" padding="none"/>
                             </TableRow>
                         </TableHead>
                         <TableBody>
+                            {items.length === 0 &&
+                                <TableRow>
+                                    <TableCell align="center" colSpan="8">
+                                        No vehicles found
+                                    </TableCell>
+                                </TableRow>
+                            }
                             {items.map((vehicle) => {
                                 const createdAt = format(new Date(vehicle.creation_date), 'dd/MM/yyyy');
                                 const isSelected = selected.includes(vehicle.vehicle_no);
                                 return (
                                     <TableRow hover key={vehicle.vehicle_no} selected={isSelected} >
                                         <TableCell padding="checkbox">
-                                            <Checkbox style={{zIndex:'1'}} checked={isSelected}
+                                            <Checkbox  checked={isSelected}
                                                 onChange={(event) => {
                                                     if (event.target.checked) {
                                                         onSelectOne?.(vehicle.vehicle_no);
@@ -101,41 +106,31 @@ export const VehiclesTable = (props) => {
                                                 }}
                                             />
                                         </TableCell>
-                                        <TableCell>
-                                            <Box display="flex" justifyContent="center">
-                                                <Stack alignItems="center" direction="row" spacing={2} >
-                                                    <Avatar style={{zIndex:'1'}} src={vehicle.image_src}>
-                                                        {vehicle.plate_number}
-                                                        {/* {getInitials(customer.name)} */}
-                                                    </Avatar>
-                                                    <Typography variant="subtitle2">
-                                                        {/* {vehicle.driver.name} */}
-                                                        {vehicle.plate_number}
-                                                    </Typography>
-                                                </Stack>
-                                            </Box>
+                                        <TableCell align="center">
+                                            <Stack justifyContent="center" alignItems="center" direction="row" spacing={1} >
+                                                <Avatar src={vehicle.image_src}>
+                                                    {vehicle.plate_number}
+                                                </Avatar>
+                                            </Stack>
                                         </TableCell>
-                                        <TableCell>
-                                            <Box display="flex" justifyContent="center">
-                                                {vehicle.brand}
-                                            </Box>
+                                        <TableCell align="center">
+                                            <Typography variant="subtitle2">
+                                                {vehicle.plate_number}
+                                            </Typography>
                                         </TableCell>
-                                        <TableCell>
-                                            <Box display="flex" justifyContent="center">
+                                        <TableCell align="center">
+                                            {vehicle.brand}
+                                        </TableCell>
+                                        <TableCell align="center">
                                                 {vehicle.model}
-                                            </Box>
                                         </TableCell>
-                                        <TableCell>
-                                            <Box display="flex" justifyContent="center">
-                                                {vehicle.status === 'active' &&  <Chip label="Active" color="success" />}
-                                                {vehicle.status === 'inactive' &&  <Chip label="Inactive" />}
-                                                {vehicle.status === 'repair' &&  <Chip label="For Repair" color="error" />}
-                                            </Box>
+                                        <TableCell align="center">
+                                            {vehicle.status === 'active' &&  <Chip label="Active" color="success" />}
+                                            {vehicle.status === 'inactive' &&  <Chip label="Inactive" />}
+                                            {vehicle.status === 'repair' &&  <Chip label="For Repair" color="error" />}
                                         </TableCell>
-                                        <TableCell>
-                                            <Box display="flex" justifyContent="center">
-                                                not set
-                                            </Box>
+                                        <TableCell align="center">
+                                            not set
                                             {/* <Stack alignItems="center" direction="row" spacing={2} > */}
                                                 {/* <Avatar style={{zIndex:'1'}} src={vehicle.image_src}> */}
                                                     {/* test */}
@@ -147,10 +142,20 @@ export const VehiclesTable = (props) => {
                                                 {/* </Typography> */}
                                             {/* </Stack> */}
                                         </TableCell>
-                                        <TableCell>
-                                            <Box display="flex" justifyContent="center">
+                                        <TableCell align="center">
                                                 {createdAt}
-                                            </Box>
+                                        </TableCell>
+                                        <TableCell align="center" size="small"  padding="none">
+                                            <IconButton color="primary" onClick={() => onEdit(vehicle)}>
+                                                <SvgIcon>
+                                                    <PencilSquareIcon />
+                                                </SvgIcon>
+                                            </IconButton >
+                                            <IconButton color="error" onClick={() => onDeleteOne(vehicle.vehicle_no)}>
+                                                <SvgIcon>
+                                                    <TrashIcon />
+                                                </SvgIcon>
+                                            </IconButton >
                                         </TableCell>
                                     </TableRow>
                                 );

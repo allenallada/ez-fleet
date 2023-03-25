@@ -13,7 +13,7 @@ import {
     Radio
 } from '@mui/material';
 
-const VehicleInformation = ({formik}) => {
+const VehicleInformation = ({edit, formik}) => {
 
     return (
         <Grid xs={12} md={6} lg={8} >
@@ -72,7 +72,7 @@ const VehicleInformation = ({formik}) => {
                     </CardContent>
                 <CardActions sx={{ justifyContent: 'flex-end' }}>
                     <Button type="submit" variant="contained">
-                        Add Vehicle
+                        {edit ? "Update Vehicle" : "Add Vehicle" }
                     </Button>
                 </CardActions>
                 </form>

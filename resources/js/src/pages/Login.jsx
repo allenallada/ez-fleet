@@ -11,7 +11,7 @@ import { Layout as AuthLayout } from '../layout/auth/Layout';
 import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import nProgress from 'nprogress';
-import Auth from '../axios/auth';
+import Api from '../axios/auth';
 import { useState } from 'react';
 import { updateLogin } from '../../stores/admin-store';
 import { useDispatch } from 'react-redux';
@@ -33,7 +33,7 @@ const Login = () => {
     const onSubmit = async (values, helpers) => {
         nProgress.start();
         setAlert(alertdef);
-        Auth.login(values).then(res => {
+        Api.login(values).then(res => {
             console.log(res.data);
             !res.data.success && (setAlert({
                 'show' : true,

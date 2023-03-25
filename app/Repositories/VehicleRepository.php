@@ -3,9 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\Vehicle;
-use App\Repositories\Interface\CRUDInterface;
+use App\Repositories\Interface\DeleteableEntityInterface;
+use App\Repositories\Interface\GenericEntityInterface;
+use App\Repositories\Interface\ListableEntityInterface;
 
-class VehicleRepository implements CRUDInterface
+class VehicleRepository implements GenericEntityInterface, ListableEntityInterface, DeleteableEntityInterface
 {
     private $model;
 
@@ -16,8 +18,8 @@ class VehicleRepository implements CRUDInterface
 
     function store($params)
     {
-        $acc = $this->model->where('plate_number', $params['plate_number'])->get();
-        if (count($acc) > 0) {
+        $vehicle = $this->model->where('plate_number', $params['plate_number'])->get();
+        if (count($vehicle) > 0) {
             return [
                 'success' => false,
                 'message' => 'Plate number already exists'
@@ -43,12 +45,14 @@ class VehicleRepository implements CRUDInterface
 
     function update($params)
     {
-
+        $accountNo = session()->get('account_no');
+        return $this->model->where('account_no', $accountNo)->where('vehicle_no', $params['vehicle_no'])->update($params);
     }
 
-    function delete($id)
-    {
-
+    function delete($params)
+    {   
+        $accountNo = session()->get('account_no');
+        return $this->model->where('account_no', $accountNo)->whereIn('vehicle_no', $params['vehicle_no'])->delete();
     }
 
     function count($params)

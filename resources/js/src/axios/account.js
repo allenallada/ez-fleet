@@ -1,14 +1,18 @@
 import axios from "axios";
 
-const Account = axios.create({
+const Api = axios.create({
     baseURL: `${import.meta.env.VITE_APP_URL}/account`,
     timeout: 1000,
 });
 
-Account.updProfile = (params) => Account.post('/profile', params);
+Api.updProfile = (params) => Api.post('/profile', params);
 
-Account.updPassword = (params) => Account.post('/password', params);
+Api.updPassword = (params) => Api.post('/password', params);
 
-Account.updAvatar = (params) => Account.post('/avatar', params);
+Api.updAvatar = (params) => Api.post('/avatar', params);
 
-export default Account;
+Api.register = (params) => Api.post('/register', params);
+
+Api.details = (account_no) => Api.get(`/details/${account_no}`);
+
+export default Api;
