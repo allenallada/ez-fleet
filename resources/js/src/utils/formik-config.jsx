@@ -115,14 +115,14 @@ export const getLoginFormik = (onSubmit) => {
     }
 }
 
-export const getVehicleFormik = (onSubmit) => {
+export const getVehicleFormik = (values, onSubmit) => {
     return {
         initialValues : {
-            plate_number : '',
-            brand : '',
-            model : '',
-            status : 'active',
-            image_src : ''
+            plate_number : values.plate_number,
+            brand : values.brand,
+            model : values.model,
+            status : values.status,
+            image_src : values.image_src
         },
         validationSchema : Yup.object({
             plate_number : Yup.string()

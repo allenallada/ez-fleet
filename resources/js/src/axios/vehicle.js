@@ -11,4 +11,8 @@ Api.getVehicles = (params) => Api.get('', {params});
 
 Api.getCount = (params) => Api.get('/count', {params});
 
+Api.deleteVehicle = (params) => Api.delete('', {params});
+
+Api.updateVehicle = (params) => Api.put('', params);
+
 export default Api;

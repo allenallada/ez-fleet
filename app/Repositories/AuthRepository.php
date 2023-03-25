@@ -39,8 +39,12 @@ class AuthRepository
 
     function status()
     {
+        $user = session()->get('user');
+
         return  [
-            'auth' => !empty(session()->get('user'))
+            'auth' => !empty($user),
+            'account_no' => session()->get('account_no'),
+            'user_name' => $user
         ];
     }
 }

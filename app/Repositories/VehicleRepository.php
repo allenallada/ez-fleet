@@ -18,8 +18,8 @@ class VehicleRepository implements GenericEntityInterface, ListableEntityInterfa
 
     function store($params)
     {
-        $acc = $this->model->where('plate_number', $params['plate_number'])->get();
-        if (count($acc) > 0) {
+        $vehicle = $this->model->where('plate_number', $params['plate_number'])->get();
+        if (count($vehicle) > 0) {
             return [
                 'success' => false,
                 'message' => 'Plate number already exists'
@@ -45,12 +45,14 @@ class VehicleRepository implements GenericEntityInterface, ListableEntityInterfa
 
     function update($params)
     {
-
+        $accountNo = session()->get('account_no');
+        return $this->model->where('account_no', $accountNo)->where('vehicle_no', $params['vehicle_no'])->update($params);
     }
 
-    function delete($id)
-    {
-
+    function delete($params)
+    {   
+        $accountNo = session()->get('account_no');
+        return $this->model->where('account_no', $accountNo)->whereIn('vehicle_no', $params['vehicle_no'])->delete();
     }
 
     function count($params)

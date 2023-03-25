@@ -23,6 +23,7 @@ Route::get('/drivers', function () {return view('admin');});
 Route::get('/account', function () {return view('admin');});
 Route::get('/settings', function () {return view('admin');});
 Route::get('/add-vehicle', function () {return view('admin');});
+Route::get('/update-vehicle', function () {return view('admin');});
 
 
 Route::prefix('auth')->group(function() {
@@ -32,7 +33,7 @@ Route::prefix('auth')->group(function() {
 
 Route::prefix('account')->group(function() {
     Route::post('/register', [AccountController::class, 'register']);
-    Route::get('/details', [AccountController::class, 'details']);
+    Route::get('/details/{accountNo}', [AccountController::class, 'details']);
     Route::post('/profile', [AccountController::class, 'profile']);
     Route::post('/password', [AccountController::class, 'password']);
     Route::post('/avatar', [AccountController::class, 'avatar']);
@@ -42,4 +43,6 @@ Route::prefix('vehicle')->group(function() {
     Route::post('/', [VehicleController::class, 'store']);
     Route::get('/', [VehicleController::class, 'list']);
     Route::get('/count', [VehicleController::class, 'count']);
+    Route::delete('/', [VehicleController::class, 'delete']);
+    Route::put('/', [VehicleController::class, 'update']);
 });

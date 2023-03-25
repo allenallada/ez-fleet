@@ -22,41 +22,47 @@ const App = () => {
         {
             path : '/',
             element : Login,
-            guarded : false
         },
         {
             path : '/register',
-            element : Register
+            element : Register,
         }
     ];
 
     const guarded = [
         {
             path : '/overview',
-            element : Overview
+            element : Overview,
         },
         {
             path : '/vehicles',
-            element : Vehicles
+            element : Vehicles,
         },
         {
             path : '/drivers',
-            element : Drivers
+            element : Drivers,
         },
         {
             path : '/account',
-            element : Account
+            element : Account,
         },
         {
             path : '/add-vehicle',
             element : VehicleForm
+        },
+        {
+            path : '/update-vehicle',
+            element : VehicleForm,
+            props : {
+                edit : true
+            }
         }
     ]
 
     const getRoutes = (routes) => routes.map(route => {
         const getLayout = route.element.getLayout ?? ((page) => page);
         const Element = route.element;
-        return (<Route path={route.path} element={getLayout(<Element/>)} />)
+        return (<Route path={route.path} element={getLayout(<Element {...route.props} />)} />)
     });
 
     return (

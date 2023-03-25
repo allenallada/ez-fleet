@@ -13,6 +13,6 @@ Api.updAvatar = (params) => Api.post('/avatar', params);
 
 Api.register = (params) => Api.post('/register', params);
 
-Api.details = () => Api.get('/details');
+Api.details = (account_no) => Api.get(`/details/${account_no}`);
 
 export default Api;

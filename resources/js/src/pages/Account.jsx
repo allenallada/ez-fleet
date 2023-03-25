@@ -10,13 +10,16 @@ import Api from '../axios/account';
 
 const Account = () => {
     const dispatch = useDispatch();
-    const {details} = useSelector(state => {
-        return  {details : state.admin.details}
+    const {details, account_no} = useSelector(state => {
+        return  {
+            details : state.admin.details,
+            account_no : state.admin.account_no
+        }
     });
 
     const reloadDetails = () => {
         dispatch(updateDetails(false));
-        Api.details().then(res => res.data).then(data => {
+        Api.details(account_no).then(res => res.data).then(data => {
             dispatch(updateDetails(data));
         })
     }

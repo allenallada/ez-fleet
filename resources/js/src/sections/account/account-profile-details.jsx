@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
-import Confirm from '../../components/confirm-password-dialog';
+import Confirm from '../../components/confirm-dialog';
 import { useDispatch } from 'react-redux';
 import { updateDetails, updateToast } from '../../../stores/admin-store';
 import { getPasswordFormik, getProfileFormik } from '../../utils/formik-config';

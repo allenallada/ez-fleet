@@ -10,9 +10,10 @@ const GuardedRoutes = () => {
     const {auth} = useSelector(state => {
         return {auth : state.admin.login}
     });
+
     useEffect(()=> {
         !auth && Auth.status().then(res => {
-            dispatch(updateLogin(res.data.auth));
+            dispatch(updateLogin(res.data));
             setProgress(false);
         });
     }, [])

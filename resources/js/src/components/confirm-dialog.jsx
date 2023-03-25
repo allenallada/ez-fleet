@@ -13,7 +13,8 @@ const Confirm = (props) => {
         showCancel,
         tf_id,
         tf_label,
-        tf_type
+        tf_type,
+        useTextField
     } = props;
 
     const [value, changeVal] = useState('');
@@ -29,13 +30,13 @@ const Confirm = (props) => {
     }
 
     return (
-        <Dialog open={open} onClose={close}>
+        <Dialog fullWidth open={open} onClose={close}>
             {title && <DialogTitle>{title}</DialogTitle>}
             <DialogContent>
                 <DialogContentText>
                     {content}
                 </DialogContentText>
-                <TextField
+                {useTextField && <TextField
                     autoFocus
                     margin="dense"
                     id={tf_id}
@@ -44,7 +45,7 @@ const Confirm = (props) => {
                     fullWidth
                     value={value}
                     onChange={(e) => changeVal(e.target.value)}
-                />
+                />}
             </DialogContent>
             <DialogActions>
                 {showCancel && <Button variant="outlined" onClick={close}>Cancel</Button>}
@@ -75,6 +76,7 @@ Confirm.defaultProps = {
     tf_label : 'Enter your password',
     tf_type : 'password',
     showCancel : true,
+    useTextField : true
 }
 
 export default Confirm;

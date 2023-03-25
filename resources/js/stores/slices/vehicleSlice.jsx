@@ -4,14 +4,18 @@ export const vehicleSlice = createSlice({
     name : 'vehicle',
     initialState : {
         vehicles : [],
-        count : 0
+        count : 0,
+        form : false
     },
     reducers : {
         updateVehicles : (state, action) => {
-            state.vehicles = action.payload
+            state.vehicles = action.payload;
         },
         updateCount : (state, action) => {
-            state.count = action.payload
+            state.count = action.payload;
+        },
+        updateForm : (state, action) => {
+            state.form = action.payload;
         }
     }
 });

@@ -45,8 +45,8 @@ class AccountController extends Controller
     }
 
 
-    public function details($id)
+    public function details($accountNo)
     {   
-        return $this->repository->get($id);
+        return $this->repository->get($accountNo);
     }
 }

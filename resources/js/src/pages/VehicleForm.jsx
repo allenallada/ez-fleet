@@ -17,31 +17,71 @@ import { useDispatch } from 'react-redux';
 import { updateToast } from '../../stores/admin-store';
 import { getVehicleFormik } from '../utils/formik-config';
 import AvatarView from '../sections/common/avatar-view';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
-const AddVehicles = () => {
+const VehicleForm = ({edit = false}) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const {form} = useSelector(state => {
+        return {
+            form : state.vehicle.form
+        }
+    });
+
+    useEffect(() => {
+        form === !edit && navigate('/vehicles');
+    }, [edit]);
+
+    const values = edit === false ? {
+        plate_number : '',
+        brand : '',
+        model : '',
+        status : 'active',
+        image_src : ''
+    } : form;
     
     const onSubmit = async (values, helpers) => {
-        Api.addVehicle(values).then(res => res.data)
-        .then((data) => {
-            if(data.success) {
-                dispatch(updateToast({
-                    message : 'Vehicle Added!',
-                    severity : 'success'
-                }));
-                navigate('/vehicles');
-            } else {
-                dispatch(updateToast({
-                    message : data.message,
-                    severity : 'error'
-                }));
-            }
-        });
+        if (edit === false) {
+            Api.addVehicle(values).then(res => res.data)
+            .then((data) => {
+                if(data.success) {
+                    dispatch(updateToast({
+                        message : 'Vehicle Added!',
+                        severity : 'success'
+                    }));
+                    navigate('/vehicles');
+                } else {
+                    dispatch(updateToast({
+                        message : data.message,
+                        severity : 'error'
+                    }));
+                }
+            });
+        } else {
+            values.vehicle_no = form.vehicle_no;
+            Api.updateVehicle(values).then(res => res.data)
+            .then((data) => {
+                if(data.success) {
+                    dispatch(updateToast({
+                        message : 'Vehicle Updated!',
+                        severity : 'success'
+                    }));
+                    navigate('/vehicles');
+                } else {
+                    dispatch(updateToast({
+                        message : data.message,
+                        severity : 'error'
+                    }));
+                }
+            });
+        }
+        
     }
 
-    const formik = useFormik(getVehicleFormik(onSubmit));
+    const formik = useFormik(getVehicleFormik(values, onSubmit));
 
     return (
         <Box component="main" sx={{ flexGrow: 1, py: 8 }}>
@@ -56,7 +96,7 @@ const AddVehicles = () => {
                 <Stack>
                     <Grid container spacing={3} >
                         <AvatarView config={vehicleConfig} formik={formik} fallback={`${import.meta.env.VITE_APP_URL}/img/vehicles/fallback.png`} />
-                        <VehicleInformation formik={formik} />
+                        <VehicleInformation edit={edit} formik={formik} />
                     </Grid>
                 </Stack>
             </Stack>
@@ -65,10 +105,10 @@ const AddVehicles = () => {
     );
 }
 
-AddVehicles.getLayout = (page) => (
+VehicleForm.getLayout = (page) => (
     <DashboardLayout>
         {page}
     </DashboardLayout>
 );
 
-export default AddVehicles;
+export default VehicleForm;

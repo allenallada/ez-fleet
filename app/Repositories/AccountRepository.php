@@ -79,10 +79,13 @@ class AccountRepository implements GenericEntityInterface
         ];
     }
 
-    function get($id)
+    function get($accountNo)
     {
         $username = session()->get('user');
-        $acc = $this->model->where('user_name', $username)->first();
+        $acc = $this->model->where([
+            ['user_name', '=', $username],
+            ['account_no', '=', $accountNo]
+        ])->first();
 
         return [
             'user_name'  => $acc['user_name'],
